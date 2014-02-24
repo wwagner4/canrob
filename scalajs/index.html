@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Example Scala.js application</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+</head>
+<body style="font-family: sans-serif;">
+	<p style="font-size: larger;">Results of the Scala Akka Workshop
+		Reloaded - Actor Cluster</p>
+	<p>
+		<a href="http://www.meetup.com/scala-vienna/events/162110952/">details...</a>
+	</p>
+	<p>Inspired by Sebastian's talk about scala-js I have ported my scala-swing visualisation to
+	scala-js and HTML5(canvas). </p>
+	<p>Select any of the top 100 results and hit the 'start' button.</p>
+	<p
+		style="border-top-style: solid; border-top-width: 1px; border-top-color: black; padding-top: 20px">
+		<select id="selectBox">
+		</select>
+		<button id="startButton">Start</button>
+	</p>
+	<canvas
+		style="border-style: solid; border-width: 1px; border-color: gray;"
+		id="canvas" width="900" height="700">Canvas tag not supported</canvas>
+
+	<script type="text/javascript"
+		src="./target/scala-2.10/canrob-scalajs-opt.js"></script>
+
+</body>
+</html>
