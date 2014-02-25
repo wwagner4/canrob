@@ -2,7 +2,12 @@ package clashcode.video
 import scala.concurrent.duration._
 import javax.sound.midi.Sequence
 
-case class Video(text: String, textDuration: Duration, code: String, gameSteps: Option[Int], seed: Long)
+case class Video(
+    text: String, // Text displayed before the video starts 
+    textDuration: Duration, // Duration the text is displayed
+    code: String, // Code of the robot to be displayed
+    gameSteps: Option[Int], // Number of robot steps to be displayed. None means all steps
+    seed: Long) // Seed for random populating the feeld with cans
 
 case object VideoCreator {
   

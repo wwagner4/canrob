@@ -40,18 +40,20 @@ case class VideoImage(
 
 trait CommonGraphics {
 
-  def drawImage(imgPath: String, pos: Pos, scale: Double)
   def setColor(c: CommonColor)
+  def setFontSize(size: Double)
+
   def drawLine(fromx: Int, fromy: Int, tox: Int, toy: Int)
   def drawRect(p1x: Int, p1y: Int, p2x: Int, p2y: Int)
   def fillRect(p1x: Int, p1y: Int, p2x: Int, p2y: Int)
-  def setFontSize(size: Double)
+  def drawImage(imgPath: String, pos: Pos, scale: Double)
   def drawString(str: String, x: Int, y: Int)
 
 }
 
 sealed trait Stage {
 
+  // Paints a complete frame of the video
   def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit
 
   // Utillity methods to be used in the implementation of paint
@@ -73,8 +75,10 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
 
   def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit = {
 
-    // Calculate the current DrawArea
+    // Calculate the current DrawArea. Draw area is a lambda because it might change 
+    // during showing the video. E.g. the swing device is resizeable
     val da = drawArea()
+    // Effective Field is the field without borders
     val eda = EffectiveField.calc(da, params.widthHeightRatio, params.border)
 
     def paintField: Unit = {
@@ -107,6 +111,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
       paintVideoImage(params.imgProvider.robots(dir), pos)
     }
 
+    // Paint one frame
     clear(g, da)
     val visibleCans = cans - robot.pos
     paintField
