@@ -4,27 +4,37 @@
 <title>Example Scala.js application</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/jquery.mobile-1.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.4.1.css">
 </head>
-<body style="font-family: sans-serif;">
-	<p style="font-size: larger;">Results of the <a href="http://www.meetup.com/scala-vienna/events/162110952/">Scala Akka Workshop
-		Reloaded - Actor Cluster</a></p>
-	<p>Inspired by Sebastian's talk about scala-js I have ported my scala-swing visualisation to
-	scala-js and HTML5(canvas). I was fascinated that I could reuse almost 100% of the existing scala code. For details <a href="https://github.com/wwagner4/canrob.git">see...<a></p>
-	<p>Select any of the top 100 results and hit the 'start' button.</p>
-	<p
-		style="border-top-style: solid; border-top-width: 1px; border-top-color: black; padding-top: 20px">
-		<select id="selectBox">
-		</select>
-		<button id="startButton">Start</button>
-	</p>
-	<canvas
-		style="border-style: solid; border-width: 1px; border-color: gray;"
-		id="canvas" width="900" height="700">Canvas tag not supported</canvas>
-		
-	<p>Powered by <a href="http://entelijan.net" >entelijan.net</p>
+<body>
+	<div
+		style="padding: 30px; max-width: 900px; margin-left: auto; margin-right: auto;">
+		<p style="font-size: larger;">
+			Results of the <a
+				href="http://www.meetup.com/scala-vienna/events/162110952/">Scala
+				Akka Workshop Reloaded - Actor Cluster</a>
+		</p>
+		<p>
+			Inspired by Sebastian's talk about scala-js I have ported my
+			scala-swing visualisation to scala-js and HTML5(canvas). I was
+			fascinated that I could reuse almost 100% of the existing scala code.
+			For details <a href="https://github.com/wwagner4/canrob.git">see...</a>
+		</p>
+		<p>Select any of the top 100 results and hit the 'start' button.</p>
+		<p>
+			<select id="selectBox">
+			</select>
+			<button id="startButton">Start</button>
+		</p>
+		<canvas	id="canvas" width="900" height="700">Canvas tag not supported</canvas>
 
-	<script type="text/javascript"
-		src="./target/scala-2.10/canrob-scalajs-opt.js"></script>
+		<p>
+			Powered by <a href="http://entelijan.net">entelijan.net</a> 
+		</p>
 
+		<script type="text/javascript"
+			src="./target/scala-2.10/canrob-scalajs-opt.js"></script>
+	</div>
 </body>
 </html>

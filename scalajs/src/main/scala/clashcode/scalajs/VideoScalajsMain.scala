@@ -18,7 +18,7 @@ object VideoScalajsMain {
     // Some configuration
     val framesPerSecond = 15
     val params = StageParams(10, ImageProvider_V01, 0.7, 0.05)
-    val videos = AkkaWorkshopResultsVideos.all
+    val allVideos = AkkaWorkshopResultsVideos.all
 
     // GUI Components form the HTML-Page
     val canvas: HTMLCanvasElement = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
@@ -26,28 +26,30 @@ object VideoScalajsMain {
     val selectBox: JQuery = jQuery(selectBoxElem.asInstanceOf[HTMLSelectElement])
     val startButtonElem = dom.document.getElementById("startButton")
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
-    
+
     // Global state
     var index = 0
     var stagesOpt: Option[List[NumberedStage]] = None
 
     // Fill the select box
-    videos.zipWithIndex.foreach {
+    allVideos.zipWithIndex.foreach {
       case (video, index) => {
         val value = index
-        val posi = "%5d." format (index + 1)
-        val label = s"$posi ${video.text}"
-        val opt = (jQuery("<option/>")).attr("value", value).html(label)
-        selectBox.append(opt)
+        val label = {
+          val posi = "%5d." format (index + 1)
+          s"$posi ${video.text}"
+        }
+        val optionElem = (jQuery("<option/>")).attr("value", value).html(label)
+        selectBox.append(optionElem)
       }
     }
 
     // Register callback for start button
     startButton.click { () =>
-      val videoIndex = selectBox.value().asInstanceOf[js.String]
-      val video = videos(videoIndex.toInt)
+      val videoIndexStr = selectBox.value().asInstanceOf[js.String]
+      val videoIndex = allVideos(videoIndexStr.toInt)
       index = 0
-      stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
+      stagesOpt = Some(VideoCreator.create(List(videoIndex), framesPerSecond))
     }
 
     // Create common graphics for painting stages
