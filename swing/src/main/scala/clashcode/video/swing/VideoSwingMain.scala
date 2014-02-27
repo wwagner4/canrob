@@ -18,7 +18,7 @@ object VideoSwingMain extends App {
   //val vl = AkkaWorkshopWinnerVideos.winner
   //val vl = AkkaWorkshopWinnerVideos.next
   //val vl = AkkaWorkshopWinnerVideos.noPhilip
-  val vl = List(AkkaWorkshopWinnerVideos.v001a)
+  val vl = List(AkkaWorkshopResultsVideos.v001)
   //val vl = List(AkkaWorkshopResultsVideos.v001)
 
   val params = StageParams(10, ImageProvider_V01, 0.8, 0.05)

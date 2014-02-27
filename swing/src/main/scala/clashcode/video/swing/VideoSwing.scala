@@ -17,10 +17,10 @@ import javax.swing.ImageIcon
 case class SwingDevice(framesPerSecond: Int, params: StageParams)
   extends Device {
 
-  var _stage: Option[NumberedStage] = None
+  var stageOpt: Option[NumberedStage] = None
 
   def paintStage(stage: NumberedStage) = {
-    _stage = Some(stage)
+    stageOpt = Some(stage)
     panel.repaint
   }
 
@@ -35,12 +35,9 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams)
     }
     override def paint(awtg: Graphics2D): Unit = {
       val cg: CommonGraphics = new ImageAwtGraphics(awtg)
-      _stage match {
-        case Some(s) => {
-          s.stage.paint(cg, () => determineCalcArea, params)
-        }
-        case None => // Nothing to be done
-      }
+      stageOpt foreach (numberedStage => {
+          numberedStage.stage.paint(cg, () => determineCalcArea, params)
+      })
     }
   }
 
@@ -48,7 +45,8 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams)
   mf.contents = panel
   mf.title = "Akka Workshop Reloaded"
   mf.iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
-  mf.size = mf.toolkit.getScreenSize()
+  //mf.size = mf.toolkit.getScreenSize()
+  mf.size = new Dimension(800, 600)
   mf.visible = true;
 
 }
