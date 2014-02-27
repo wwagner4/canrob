@@ -47,9 +47,9 @@ object VideoScalajsMain {
     // Register callback for start button
     startButton.click { () =>
       val videoIndexStr = selectBox.value().asInstanceOf[js.String]
-      val videoIndex = allVideos(videoIndexStr.toInt)
+      val video = allVideos(videoIndexStr.toInt)
       index = 0
-      stagesOpt = Some(VideoCreator.create(List(videoIndex), framesPerSecond))
+      stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
     }
 
     // Create common graphics for painting stages
