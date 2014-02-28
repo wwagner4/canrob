@@ -1,0 +1,23 @@
+<project name="canrob-scalajs">
+
+	<property name="exportDir">C:\Users\wwagner\prj\canrob-mobile</property>
+
+	<target name="export">
+		<copy todir="${exportDir}">
+			<fileset dir=".">
+				<include name="js/**/*" />
+				<exclude name="**/*.map" />
+			</fileset>
+		</copy>
+		<copy todir="${exportDir}/js" failonerror="true">
+			<fileset dir="target/scala-2.10">
+				<include name="canrob-scalajs-opt.js" />
+			</fileset>
+		</copy>
+		<copy todir="${exportDir}" failonerror="true">
+			<fileset dir="">
+				<include name="src/main/resources/**/*" />
+			</fileset>
+		</copy>
+	</target>
+</project>
