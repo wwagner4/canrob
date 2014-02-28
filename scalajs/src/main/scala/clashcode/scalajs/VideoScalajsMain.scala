@@ -27,9 +27,6 @@ object VideoScalajsMain {
     val startButtonElem = dom.document.getElementById("startButton")
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
-    canvas.width = center.clientWidth * (0.895 + center.clientWidth / 18475)
-    canvas.height = canvas.width * 0.7
-    
     // Global state
     var index = 0
     var stagesOpt: Option[List[NumberedStage]] = None
