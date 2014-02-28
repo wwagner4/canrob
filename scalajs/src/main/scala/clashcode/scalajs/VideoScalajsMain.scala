@@ -3,13 +3,12 @@ package clashcode.scalajs
 import scala.scalajs.js
 import scala.scalajs.js.Any.{ fromDouble, fromFunction0, fromInt, fromString, stringOps }
 import scala.scalajs.js.Number.toDouble
-
 import org.scalajs.dom
 import org.scalajs.dom.{ CanvasRenderingContext2D, HTMLButtonElement, HTMLCanvasElement, HTMLSelectElement }
 import org.scalajs.jquery.{ JQuery, jQuery }
-
 import clashcode.video._
 import clashcode.video.lists.AkkaWorkshopResultsVideos
+import org.scalajs.dom.HTMLDivElement
 
 object VideoScalajsMain {
 
@@ -17,16 +16,20 @@ object VideoScalajsMain {
   def main(): Unit = {
     // Some configuration
     val framesPerSecond = 15
-    val params = StageParams(10, ImageProvider_V01, 0.7, 0.05)
+    val params = StageParams(10, ImageProvider_V01, 0.7, 0.07)
     val allVideos = AkkaWorkshopResultsVideos.all
 
     // GUI Components form the HTML-Page
+    val center: HTMLDivElement = dom.document.getElementById("centerDiv").asInstanceOf[HTMLDivElement]
     val canvas: HTMLCanvasElement = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
     val selectBoxElem = dom.document.getElementById("selectBox")
     val selectBox: JQuery = jQuery(selectBoxElem.asInstanceOf[HTMLSelectElement])
     val startButtonElem = dom.document.getElementById("startButton")
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
+    canvas.width = center.clientWidth * (0.899 + center.clientWidth / 18475)
+    canvas.height = canvas.width * 0.7
+    
     // Global state
     var index = 0
     var stagesOpt: Option[List[NumberedStage]] = None

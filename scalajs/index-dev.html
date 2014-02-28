@@ -8,8 +8,8 @@
 <link rel="stylesheet" type="text/css" href="js/jquery.mobile-1.4.1.css">
 </head>
 <body>
-	<div
-		style="padding: 30px; max-width: 900px; margin-left: auto; margin-right: auto;">
+	<div id = "centerDiv"
+		style="padding: 30px; width="100%"; margin-left: auto; margin-right: auto;">
 		<p>
 			Inspired by Sebastian's talk about scala-js I have ported my
 			scala-swing visualisation to scala-js and HTML5(canvas). I was
@@ -20,10 +20,9 @@
 			<select id="selectBox"></select>
 			<button id="startButton">Start</button>
 		</p>
-		<canvas id="canvas" width="900" height="700">Canvas tag not supported</canvas>
-
-
-
+		<p>
+			<canvas id="canvas" >Canvas tag not supported</canvas>
+		</p>
 	</div>
 	<script type="text/javascript"
 		src="target/scala-2.10/canrob-scalajs-extdeps.js"></script>
