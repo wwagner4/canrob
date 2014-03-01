@@ -1,22 +1,46 @@
 <project name="canrob-scalajs">
 
-	<property name="exportDir">C:\Users\wwagner\prj\canrob-mobile</property>
+	<property name="exportMobileDir">../canrob-mobile</property>
+	<property name="exportWebDir">/home/wolfi/tmp/canrob</property>
 
-	<target name="export">
-		<copy todir="${exportDir}">
+	<target name="export-mobile">
+		<copy todir="${exportMobileDir}">
 			<fileset dir=".">
 				<include name="js/**/*" />
 				<exclude name="**/*.map" />
 			</fileset>
 		</copy>
-		<copy todir="${exportDir}/js" failonerror="true">
+		<copy todir="${exportMobileDir}/js" failonerror="true" verbose="true">
 			<fileset dir="target/scala-2.10">
-				<include name="canrob-scalajs-opt.js" />
+				<include name="*-opt.js" />
 			</fileset>
 		</copy>
-		<copy todir="${exportDir}" failonerror="true">
+		<copy todir="${exportMobileDir}" failonerror="true">
 			<fileset dir="">
 				<include name="src/main/resources/**/*" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="export-web">
+		<copy todir="${exportWebDir}">
+			<fileset dir=".">
+				<include name="js/**/*" />
+				<exclude name="**/*.map" />
+			</fileset>
+		</copy>
+		<copy todir="${exportWebDir}/js" failonerror="true" verbose="true">
+			<fileset dir="target/scala-2.10">
+				<include name="*-opt.js" />
+			</fileset>
+		</copy>
+		<copy todir="${exportWebDir}" failonerror="true">
+			<fileset dir=".">
+				<include name="src/main/resources/**/*" />
+			</fileset>
+		</copy>
+		<copy todir="${exportWebDir}" failonerror="true">
+			<fileset dir="web">
+				<include name="*" />
 			</fileset>
 		</copy>
 	</target>

@@ -16,7 +16,7 @@ object VideoScalajsMain {
   def main(): Unit = {
     // Some configuration
     val framesPerSecond = 15
-    val params = StageParams(10, ImageProvider_V01, 0.7, 0.07)
+    val params = StageParams(10, ImageProvider_V01, 0.9, 0.07)
     val allVideos = AkkaWorkshopResultsVideos.all
 
     // GUI Components form the HTML-Page
@@ -27,6 +27,10 @@ object VideoScalajsMain {
     val startButtonElem = dom.document.getElementById("startButton")
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
+    canvas.width = center.clientWidth * (0.899 + center.clientWidth / 18475)
+    canvas.height = canvas.width * 0.9
+
+    
     // Global state
     var index = 0
     var stagesOpt: Option[List[NumberedStage]] = None
