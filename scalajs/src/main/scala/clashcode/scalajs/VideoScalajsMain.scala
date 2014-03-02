@@ -29,10 +29,9 @@ object VideoScalajsMain {
 
     val cw = center.clientWidth
     println("------ cw=" + cw)
-    canvas.width =  cw * 1.0
+    canvas.width = cw * 1.0
     canvas.height = canvas.width * 0.9
 
-    
     // Global state
     var index = 0
     var stagesOpt: Option[List[NumberedStage]] = None
@@ -69,13 +68,18 @@ object VideoScalajsMain {
     dom.setInterval(() => update, (1000.0 / framesPerSecond).ceil.toInt)
 
     def update: Unit = {
-      stagesOpt foreach (stages => {
-        val stage = stages(index)
-        // This is where the magic takes place
-        stage.stage.paint(cg, () => da, params)
-        index += 1
-        if (index >= stages.size) stagesOpt = None
-      })
+      stagesOpt match {
+        case Some(stages) => {
+          val stage = stages(index)
+          // This is where the magic takes place
+          stage.stage.paint(cg, () => da, params)
+          if (index >= stages.size) stagesOpt = None
+        }
+        case None => {
+          Intro.stage(index).paint(cg, () => da, params)
+        }
+      }
+      index += 1
     }
 
   }

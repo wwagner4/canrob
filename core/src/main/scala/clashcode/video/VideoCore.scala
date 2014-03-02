@@ -67,6 +67,15 @@ sealed trait Stage {
     g.fillRect(x, y, w, h)
   }
 
+  protected def paintVideoImage(g: CommonGraphics, vimg: VideoImage, pos: Pos, eda: DrawArea, params: StageParams): Unit = {
+    val effPos: Pos = EffectiveOffset.calc(pos, params.fieldSize, eda)
+    val fieldWidth = eda.area.w.toDouble / params.fieldSize
+    val scale = (fieldWidth / vimg.size.w) * vimg.scaleFactor
+    val imgx = (effPos.x - (vimg.center.x * scale)).toInt
+    val imgy = (effPos.y - (vimg.center.y * scale)).toInt
+    g.drawImage(vimg.imgPath, Pos(imgx, imgy), scale)
+  }
+
 }
 
 case class RobotView(pos: Pos, dir: Direction)
@@ -98,17 +107,8 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
       //paintRaster
       g.drawRect(eda.offset.x, eda.offset.y, eda.area.w, eda.area.h)
     }
-    def paintVideoImage(vimg: VideoImage, pos: Pos): Unit = {
-      val effPos: Pos = EffectiveOffset.calc(pos, params.fieldSize, eda)
-      val fieldWidth = eda.area.w.toDouble / params.fieldSize
-      val scale = (fieldWidth / vimg.size.w) * vimg.scaleFactor
-      val imgx = (effPos.x - (vimg.center.x * scale)).toInt
-      val imgy = (effPos.y - (vimg.center.y * scale)).toInt
-      g.drawImage(vimg.imgPath, Pos(imgx, imgy), scale)
-    }
-
     def paintRobot(pos: Pos, dir: Direction): Unit = {
-      paintVideoImage(params.imgProvider.robots(dir), pos)
+      paintVideoImage(g, params.imgProvider.robots(dir), pos, eda, params)
     }
 
     // Paint one frame
@@ -116,9 +116,46 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
     val visibleCans = cans - robot.pos
     paintField
     for (canPos <- visibleCans) {
-      paintVideoImage(params.imgProvider.can, canPos)
+      paintVideoImage(g, params.imgProvider.can, canPos, eda, params)
     }
-    paintVideoImage(params.imgProvider.robots(robot.dir), robot.pos)
+    paintVideoImage(g, params.imgProvider.robots(robot.dir), robot.pos, eda, params)
+  }
+}
+
+case object Intro {
+  
+  def stage(index: Int): Stage = {
+    IntroStage(index)
+  }
+  
+}
+
+case class IntroStage(index: Int) extends Stage {
+
+  def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit = {
+
+    // Calculate the current DrawArea. Draw area is a lambda because it might change 
+    // during showing the video. E.g. the swing device is resizeable
+    val da = drawArea()
+    // Effective Field is the field without borders
+    val eda = EffectiveField.calc(da, params.widthHeightRatio, params.border)
+
+    def direction: Direction = {
+      index % 8 match {
+        case 0 => N
+        case 1 => NE
+        case 2 => E
+        case 3 => SE
+        case 4 => S
+        case 5 => SW
+        case 6 => W
+        case 7 => NW
+      }
+    }
+    
+    // Paint one frame
+    clear(g, da)
+    paintVideoImage(g, params.imgProvider.robots(direction), Pos(params.fieldSize, params.fieldSize), eda, params)
   }
 }
 
