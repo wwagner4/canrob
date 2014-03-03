@@ -27,9 +27,7 @@ object VideoScalajsMain {
     val startButtonElem = dom.document.getElementById("startButton")
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
-    val cw = center.clientWidth
-    println("------ cw=" + cw)
-    canvas.width = cw * 1.0
+    canvas.width = center.clientWidth
     canvas.height = canvas.width * 0.9
 
     // Global state
