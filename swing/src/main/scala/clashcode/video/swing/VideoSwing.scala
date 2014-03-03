@@ -13,22 +13,24 @@ import java.awt.image.AffineTransformOp
 import java.awt.image.BufferedImage
 import scala.util.Random
 import javax.swing.ImageIcon
+import scala.swing.BorderPanel
+import scala.swing.FlowPanel
+import scala.swing.ComboBox
+import scala.swing.Button
 
-case class SwingDevice(framesPerSecond: Int, params: StageParams)
-  extends Device {
+case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
   var stageOpt: Option[NumberedStage] = None
 
-  def paintStage(stage: NumberedStage) = {
-    stageOpt = Some(stage)
-    panel.repaint
+  def playOnes(stages: List[NumberedStage]): Unit = {
+    stages.foreach(ns => {
+      stageOpt = Some(ns)
+      canvas.repaint
+      Thread.sleep((1000.0 / framesPerSecond).toInt);
+    })
   }
 
-  override def postPaintStage: Unit = {
-    Thread.sleep((1000.0 / framesPerSecond).toInt);
-  }
-
-  val panel = new Panel {
+  val canvas = new Panel {
 
     def determineCalcArea: DrawArea = {
       DrawArea(Pos(0, 0), Rec(this.size.width, this.size.height))
@@ -36,13 +38,24 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams)
     override def paint(awtg: Graphics2D): Unit = {
       val cg: CommonGraphics = new ImageAwtGraphics(awtg)
       stageOpt foreach (numberedStage => {
-          numberedStage.stage.paint(cg, () => determineCalcArea, params)
+        numberedStage.stage.paint(cg, () => determineCalcArea, params)
       })
     }
   }
 
+  val comboBox = new ComboBox(List("A", "B", "C", "D", "E", "F"))
+
+  val startButton = new Button("Start")
+
+  val compPanel = new FlowPanel(comboBox, startButton)
+
+  val content = new BorderPanel() {
+    add(compPanel, BorderPanel.Position.North)
+    add(canvas, BorderPanel.Position.Center)
+  }
+
   val mf = new MainFrame()
-  mf.contents = panel
+  mf.contents = content
   mf.title = "Akka Workshop Reloaded"
   mf.iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
   //mf.size = mf.toolkit.getScreenSize()

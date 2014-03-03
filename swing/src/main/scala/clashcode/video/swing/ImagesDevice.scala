@@ -4,10 +4,10 @@ import java.awt.{Graphics2D, RenderingHints}
 import java.awt.image.BufferedImage
 import java.io.File
 
-import clashcode.video.{CommonGraphics, Device, DrawArea, ImageProvider_V01, NumberedStage, Pos, Rec, StageParams}
+import clashcode.video.{CommonGraphics, DrawArea, ImageProvider_V01, NumberedStage, Pos, Rec, StageParams}
 import javax.imageio.ImageIO
 
-class ImagesDevice extends Device {
+class ImagesDevice  {
 
   //val res = Rec(3840, 2160) // 2160p
   //val res = Rec(2560, 1440)
