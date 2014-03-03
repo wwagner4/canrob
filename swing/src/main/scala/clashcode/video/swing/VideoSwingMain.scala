@@ -24,10 +24,6 @@ object VideoSwingMain extends App {
   val stages = VideoCreator.create(vl, framesPerSecond)
 
   val device = new SwingDevice(framesPerSecond, params)
-  //val device: Device = new ImagesDevice
-
-  device.playOnes(stages)
-  //device.playEndless(stages)
 
 }
 

@@ -17,18 +17,12 @@ import scala.swing.BorderPanel
 import scala.swing.FlowPanel
 import scala.swing.ComboBox
 import scala.swing.Button
+import scala.swing.Action
+import scala.concurrent.duration.Duration
 
 case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
-  var stageOpt: Option[NumberedStage] = None
-
-  def playOnes(stages: List[NumberedStage]): Unit = {
-    stages.foreach(ns => {
-      stageOpt = Some(ns)
-      canvas.repaint
-      Thread.sleep((1000.0 / framesPerSecond).toInt);
-    })
-  }
+  var awtgOpt: Option[Graphics2D] = None
 
   val canvas = new Panel {
 
@@ -36,14 +30,11 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
       DrawArea(Pos(0, 0), Rec(this.size.width, this.size.height))
     }
     override def paint(awtg: Graphics2D): Unit = {
-      val cg: CommonGraphics = new ImageAwtGraphics(awtg)
-      stageOpt foreach (numberedStage => {
-        numberedStage.stage.paint(cg, () => determineCalcArea, params)
-      })
+      awtgOpt = Some(awtg)
     }
   }
 
-  val comboBox = new ComboBox(List("A", "B", "C", "D", "E", "F"))
+  val comboBox = new ComboBox(List[String]())
 
   val startButton = new Button("Start")
 
@@ -53,6 +44,32 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     add(compPanel, BorderPanel.Position.North)
     add(canvas, BorderPanel.Position.Center)
   }
+
+  val ccanvas: CommonCanvas = new CommonCanvas {
+    def width = canvas.size.getWidth().toInt
+    def height = canvas.size.getHeight.toInt
+  }
+  def cgraphics = () => awtgOpt.map(awtg => ImageAwtGraphics(awtg))
+
+  val cselectBox = new CommonSelect[Video] {
+    def addItem(index: Int, item: Video): Unit = ???
+    def selectedItem: Video = ???
+  }
+
+  val cstartButton = new CommonButton {
+    def click(f: () => Unit): Unit = {
+      startButton.action = new Action("") {
+        def apply = f()
+      }
+    }
+  }
+
+  val cschedular: CommonSchedular = new CommonSchedular {
+    def start(f: () => Unit, duration: Duration) = ???
+  }
+
+  GuiController(ccanvas, cgraphics, cselectBox: CommonSelect[Video],
+    cstartButton, cschedular)
 
   val mf = new MainFrame()
   mf.contents = content
