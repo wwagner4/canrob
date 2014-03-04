@@ -52,20 +52,37 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   def cgraphics = () => awtgOpt.map(awtg => ImageAwtGraphics(awtg))
 
   val cselectBox = new CommonSelect[Video] {
-    def addItem(index: Int, item: Video): Unit = ???
-    def selectedItem: Video = ???
+    import javax.swing._
+
+    val peer: JComboBox[Video] = comboBox.peer.asInstanceOf[JComboBox[Video]]
+    val model = new DefaultComboBoxModel[Video]()
+    peer.setModel(model)
+    
+    def addItem(index: Int, item: Video): Unit = {
+      model.addElement(item)
+    }
+    def selectedItem: Video = peer.getSelectedItem().asInstanceOf[Video]
   }
 
   val cstartButton = new CommonButton {
     def click(f: () => Unit): Unit = {
-      startButton.action = new Action("") {
+      startButton.action = new Action("Start") {
         def apply = f()
       }
     }
   }
 
   val cschedular: CommonSchedular = new CommonSchedular {
-    def start(f: () => Unit, duration: Duration) = ???
+    import scala.concurrent._
+    import scala.concurrent.ExecutionContext.Implicits.global
+    def start(f: () => Unit, duration: Duration) = {
+      future {
+        while(true) {
+          f()
+          Thread.sleep(duration.length)
+        }
+      }
+    }
   }
 
   GuiController(ccanvas, cgraphics, cselectBox: CommonSelect[Video],
