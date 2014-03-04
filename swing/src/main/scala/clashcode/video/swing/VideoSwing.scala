@@ -53,6 +53,8 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
   val cselectBox = new CommonSelect[Video] {
     import javax.swing._
+    
+    
 
     val peer: JComboBox[Video] = comboBox.peer.asInstanceOf[JComboBox[Video]]
     val model = new DefaultComboBoxModel[Video]()
