@@ -43,7 +43,6 @@ case class GuiController(canvas: CommonCanvas, graphics: () => Option[CommonGrap
   // Register callback for start button
   startButton.click { () =>
     val video = selectBox.selectedItem
-    println(s"--GUI-- pressed the start button. selected video is $video")
     index = 0
     stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
   }
@@ -52,7 +51,6 @@ case class GuiController(canvas: CommonCanvas, graphics: () => Option[CommonGrap
 
   def update: Unit = {
     val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
-    println(s"--GUI-- update was called. da=$da")
     graphics().foreach(cg => {
       stagesOpt match {
         case Some(stages) => {

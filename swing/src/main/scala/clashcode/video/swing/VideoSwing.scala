@@ -27,7 +27,6 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   val canvas = new Panel {
     
     override def paint(awtg: Graphics2D): Unit = {
-      println(s"--Panel(canvas)-- $size")
       awtgOpt = Some(awtg)
     }
   }
@@ -56,7 +55,6 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
   val ccanvas: CommonCanvas = new CommonCanvas {
     def width = {
-      println(s"-- CommonCanvas -- ${canvas.size} ")
       canvas.size.getWidth().toInt
     }
     def height = canvas.size.getHeight.toInt
@@ -96,7 +94,6 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
           f()
           canvas.repaint
           val ms = duration.toMillis
-          println(s"--CommonSchedular-- sleeping for $ms ms")
           Thread.sleep(ms)
         }
       }
