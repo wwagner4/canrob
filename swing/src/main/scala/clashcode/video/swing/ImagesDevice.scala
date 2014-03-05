@@ -6,6 +6,7 @@ import java.io.File
 import clashcode.video.{DrawArea, ImageProvider_V01, NumberedStage, Rec, StageParams}
 import javax.imageio.ImageIO
 import doctus.core._
+import doctus.swing._
 import clashcode.video.Pos
 
 class ImagesDevice  {
