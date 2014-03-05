@@ -19,99 +19,24 @@ import scala.swing.ComboBox
 import scala.swing.Button
 import scala.swing.Action
 import scala.concurrent.duration.Duration
+import javax.swing.SwingUtilities
 
-case class SwingDevice(framesPerSecond: Int, params: StageParams) {
+/**
+ * Allows access to the Graphics2D of the panel after the first call to paint
+ * Must be used in CommonCanvas
+ */
+class EasyCanvas extends Panel {
 
-  var awtgOpt: Option[Graphics2D] = None
+  private var _graphics2DOpt: Option[Graphics2D] = None
 
-  val canvas = new Panel {
-    override def paint(awtg: Graphics2D): Unit = {
-      awtgOpt = Some(awtg)
-    }
+  def graphics2DOpt = _graphics2DOpt
+
+  override def paint(g: Graphics2D): Unit = {
+    _graphics2DOpt = Some(g)
   }
-
-  val comboBox = new ComboBox(List.empty[Video]) {
-    import scala.swing.ListView.Renderer
-    val max = 100
-    def trim(value: String): String = {
-      if (value.size < max) value
-      else value.substring(0, max - 3) + "..."
-    }
-    renderer = Renderer(v => {
-      if (v != null) trim(v.text.replace("\n", ""))
-      else ""
-    })
-  }
-
-  val startButton = new Button("Start")
-
-  val compPanel = new FlowPanel(comboBox, startButton)
-
-  val content = new BorderPanel() {
-    add(compPanel, BorderPanel.Position.North)
-    add(canvas, BorderPanel.Position.Center)
-  }
-
-  val ccanvas: CommonCanvas = new CommonCanvas {
-    def width = {
-      canvas.size.getWidth().toInt
-    }
-    def height = canvas.size.getHeight.toInt
-    def graphics = awtgOpt.map(awtg => ImageAwtGraphics(awtg))		
-  }
-
-  val cselectBox = new CommonSelect[Video] {
-    import javax.swing._
-    import scala.swing.ListView
-
-    val peer: JComboBox[Video] = comboBox.peer.asInstanceOf[JComboBox[Video]]
-    val model = new DefaultComboBoxModel[Video]()
-    peer.setModel(model)
-
-    def addItem(index: Int, item: Video): Unit = {
-      model.addElement(item)
-    }
-    def selectedItem: Video = peer.getSelectedItem().asInstanceOf[Video]
-  }
-
-  val cstartButton = new CommonButton {
-    def click(f: () => Unit): Unit = {
-      startButton.action = new Action("Start") {
-        def apply = {
-          f()
-        }
-      }
-    }
-  }
-
-  val cschedular: CommonSchedular = new CommonSchedular {
-    import scala.concurrent._
-    import scala.concurrent.ExecutionContext.Implicits.global
-    def start(f: () => Unit, duration: Duration) = {
-      future {
-        while (true) {
-          f()
-          canvas.repaint
-          val ms = duration.toMillis
-          Thread.sleep(ms)
-        }
-      }
-    }
-  }
-
-  GuiController(ccanvas, cselectBox: CommonSelect[Video], cstartButton, cschedular)
-
-  val mf = new MainFrame()
-  mf.contents = content
-  mf.title = "Akka Workshop Reloaded"
-  mf.iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
-  //mf.size = mf.toolkit.getScreenSize()
-  mf.size = new Dimension(800, 600)
-  mf.visible = true;
-
 }
 
-case class ImageAwtGraphics(graphics: Graphics2D) extends CommonGraphics {
+case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
 
   def drawImage(imgPath: String, pos: Pos, scale: Double): Unit = {
     val imgr = getClass().getClassLoader().getResource(imgPath)
@@ -143,6 +68,87 @@ case class ImageAwtGraphics(graphics: Graphics2D) extends CommonGraphics {
     val font = graphics.getFont()
     graphics.setFont(font.deriveFont(size.toFloat))
   }
+
+}
+
+case class SwingCanvas(canvas: EasyCanvas) extends CommonCanvas {
+  def width = canvas.size.getWidth().toInt
+  def height = canvas.size.getHeight.toInt
+  def graphics = canvas.graphics2DOpt.map(g => SwingGraphics(g))
+}
+
+case class SwingSelect[T](comboBox: ComboBox[T]) extends CommonSelect[T] {
+  import javax.swing._
+  import scala.swing.ListView
+
+  val model = new DefaultComboBoxModel[T]()
+  val peer: JComboBox[T] = comboBox.peer.asInstanceOf[JComboBox[T]]
+  peer.setModel(model)
+
+  def addItem(index: Int, item: T): Unit = model.addElement(item)
+  def selectedItem: T = peer.getSelectedItem().asInstanceOf[T]
+}
+
+case class SwingButton(button: Button) extends CommonButton {
+  def click(f: () => Unit): Unit = {
+    button.action = new Action(button.text) {
+      def apply = f()
+    }
+  }
+}
+
+case class SwingScheduler(canvas: EasyCanvas) extends CommonScheduler {
+  import scala.concurrent._
+  import scala.concurrent.ExecutionContext.Implicits.global
+  def start(f: () => Unit, duration: Duration) = {
+    future {
+      while (true) {
+        f()
+        canvas.repaint
+        Thread.sleep(duration.toMillis)
+      }
+    }
+  }
+}
+
+case class SwingDevice(framesPerSecond: Int, params: StageParams) {
+
+  val canvas = new EasyCanvas
+
+  val comboBox = new ComboBox(List.empty[Video]) {
+    import scala.swing.ListView.Renderer
+    val max = 100
+    def trim(value: String): String = {
+      if (value.size < max) value
+      else value.substring(0, max - 3) + "..."
+    }
+    renderer = Renderer(v => {
+      if (v != null) trim(v.text.replace("\n", ""))
+      else ""
+    })
+  }
+
+  val startButton = new Button("Start")
+
+  val compPanel = new FlowPanel(comboBox, startButton)
+
+  val content = new BorderPanel() {
+    add(compPanel, BorderPanel.Position.North)
+    add(canvas, BorderPanel.Position.Center)
+  }
+
+  GuiController(SwingCanvas(canvas), 
+      SwingSelect[Video](comboBox), 
+      SwingButton(startButton), 
+      SwingScheduler(canvas))
+
+  val mf = new MainFrame()
+  mf.contents = content
+  mf.title = "Akka Workshop Reloaded"
+  mf.iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
+  //mf.size = mf.toolkit.getScreenSize()
+  mf.size = new Dimension(800, 600)
+  mf.visible = true;
 
 }
 

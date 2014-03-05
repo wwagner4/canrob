@@ -19,12 +19,12 @@ trait CommonButton {
   def click(f: () => Unit): Unit
 }
 
-trait CommonSchedular {
+trait CommonScheduler {
   def start(f: () => Unit, duration: Duration)
 }
 
 case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
-  startButton: CommonButton, schedular: CommonSchedular) {
+  startButton: CommonButton, schedular: CommonScheduler) {
 
   val framesPerSecond = 15
   val params = StageParams(10, ImageProvider_V01, 0.9, 0.07)

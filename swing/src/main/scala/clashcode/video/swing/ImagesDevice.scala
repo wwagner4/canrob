@@ -42,7 +42,7 @@ class ImagesDevice  {
     }
   }
   private def toCommonGraphics(g: Graphics2D): CommonGraphics = {
-    new ImageAwtGraphics(g) {
+    new SwingGraphics(g) {
       def drawArea: DrawArea = DrawArea(Pos(0, 0), res)
     }
   }
