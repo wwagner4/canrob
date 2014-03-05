@@ -34,7 +34,15 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     }
   }
 
-  val comboBox = new ComboBox(List[String]())
+  val comboBox = new ComboBox(List.empty[Video]) {
+    import scala.swing.ListView.Renderer
+    val max = 100
+    def trim(value: String): String = {
+      if (value.size < max) value
+      else value.substring(0, max - 3) + "..."
+    }
+    renderer = Renderer(v => trim(v.text.replace("\n", "")))
+  }
 
   val startButton = new Button("Start")
 
@@ -53,13 +61,12 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
   val cselectBox = new CommonSelect[Video] {
     import javax.swing._
-    
-    
+    import scala.swing.ListView
 
     val peer: JComboBox[Video] = comboBox.peer.asInstanceOf[JComboBox[Video]]
     val model = new DefaultComboBoxModel[Video]()
     peer.setModel(model)
-    
+
     def addItem(index: Int, item: Video): Unit = {
       model.addElement(item)
     }
@@ -79,7 +86,7 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     import scala.concurrent.ExecutionContext.Implicits.global
     def start(f: () => Unit, duration: Duration) = {
       future {
-        while(true) {
+        while (true) {
           f()
           Thread.sleep(duration.length)
         }
