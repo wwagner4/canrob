@@ -21,18 +21,13 @@ import scala.swing.Action
 import scala.concurrent.duration.Duration
 import javax.swing.SwingUtilities
 
-/**
- * Allows access to the Graphics2D of the panel after the first call to paint
- * Must be used in CommonCanvas
- */
 class EasyCanvas extends Panel {
 
-  private var _graphics2DOpt: Option[Graphics2D] = None
-
-  def graphics2DOpt = _graphics2DOpt
+  var paintOpt: Option[(CommonGraphics) => Unit] = None
 
   override def paint(g: Graphics2D): Unit = {
-    _graphics2DOpt = Some(g)
+    val commonGraphics = SwingGraphics(g)
+    paintOpt.foreach(f => f(commonGraphics))
   }
 }
 
@@ -72,9 +67,12 @@ case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
 }
 
 case class SwingCanvas(canvas: EasyCanvas) extends CommonCanvas {
+  def onRepaint(f: (CommonGraphics) => Unit) = {
+    canvas.paintOpt = Some(f)
+  }
+  def repaint = canvas.repaint
   def width = canvas.size.getWidth().toInt
   def height = canvas.size.getHeight.toInt
-  def graphics = canvas.graphics2DOpt.map(g => SwingGraphics(g))
 }
 
 case class SwingSelect[T](comboBox: ComboBox[T]) extends CommonSelect[T] {
@@ -113,7 +111,7 @@ case class SwingScheduler(canvas: EasyCanvas) extends CommonScheduler {
 
 case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
-  val canvas = new EasyCanvas
+  val canvas = new EasyCanvas()
 
   val comboBox = new ComboBox(List.empty[Video]) {
     import scala.swing.ListView.Renderer
@@ -137,10 +135,10 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     add(canvas, BorderPanel.Position.Center)
   }
 
-  GuiController(SwingCanvas(canvas), 
-      SwingSelect[Video](comboBox), 
-      SwingButton(startButton), 
-      SwingScheduler(canvas))
+  GuiController(SwingCanvas(canvas),
+    SwingSelect[Video](comboBox),
+    SwingButton(startButton),
+    SwingScheduler(canvas))
 
   val mf = new MainFrame()
   mf.contents = content

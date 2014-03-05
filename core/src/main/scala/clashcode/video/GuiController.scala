@@ -5,7 +5,8 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 
 trait CommonCanvas {
-  def graphics: Option[CommonGraphics]
+  def onRepaint(f: (CommonGraphics) => Unit): Unit
+  def repaint: Unit
   def width: Int
   def height: Int
 }
@@ -24,10 +25,11 @@ trait CommonScheduler {
 }
 
 case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
-  startButton: CommonButton, schedular: CommonScheduler) {
+  startButton: CommonButton, scheduler: CommonScheduler) {
 
-  val framesPerSecond = 15
-  val params = StageParams(10, ImageProvider_V01, 0.9, 0.07)
+
+  val framesPerSecond = 25
+  val params = StageParams(10, ImageProvider_V01, 0.6, 0.07)
   val allVideos = AkkaWorkshopResultsVideos.all
 
   // Global state
@@ -48,22 +50,22 @@ case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
     stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
   }
 
-  schedular.start(() => update, (1000.0 / framesPerSecond).millis)
+  scheduler.start(() => canvas.repaint, (1000.0 / framesPerSecond).millis)
 
-  def update: Unit = {
+  canvas.onRepaint(update)
+
+  def update(cg: CommonGraphics): Unit = {
     val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
-    canvas.graphics.foreach(cg => {
-      stagesOpt match {
-        case Some(stages) => {
-          val stage = stages(index)
-          stage.stage.paint(cg, da, params)
-          if (index >= stages.size) stagesOpt = None
-        }
-        case None => {
-          Intro.stage(index).paint(cg, da, params)
-        }
+    stagesOpt match {
+      case Some(stages) => {
+        val stage = stages(index)
+        stage.stage.paint(cg, da, params)
+        if (index >= stages.size - 1) stagesOpt = None
       }
-      index += 1
-    })
+      case None => {
+        Intro.stage(index).paint(cg, da, params)
+      }
+    }
+    index += 1
   }
 }

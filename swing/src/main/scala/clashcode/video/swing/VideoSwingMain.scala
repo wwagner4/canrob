@@ -20,7 +20,7 @@ object VideoSwingMain extends App {
   val vl = List(AkkaWorkshopResultsVideos.v001)
   //val vl = List(AkkaWorkshopResultsVideos.v001)
 
-  val params = StageParams(10, ImageProvider_V01, 0.8, 0.05)
+  val params = StageParams(10, ImageProvider_V01, 0.6, 0.05)
   val stages = VideoCreator.create(vl, framesPerSecond)
 
   val device = new SwingDevice(framesPerSecond, params)
