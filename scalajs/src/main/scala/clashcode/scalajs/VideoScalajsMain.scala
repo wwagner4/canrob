@@ -32,54 +32,12 @@ object VideoScalajsMain {
     canvas.width = center.clientWidth
     canvas.height = canvas.width * 0.9
 
-    // Global state
-    var index = 0
-    var stagesOpt: Option[List[NumberedStage]] = None
-
-    // Fill the select box
-    allVideos.zipWithIndex.foreach {
-      case (video, index) => {
-        val value = index
-        val label = {
-          val posi = "%5d." format (index + 1)
-          s"$posi ${video.text}"
-        }
-        val optionElem = (jQuery("<option/>")).attr("value", value).html(label)
-        selectBox.append(optionElem)
-      }
-    }
-
-    // Register callback for start button
-    startButton.click { () =>
-      val videoIndexStr = selectBox.value().asInstanceOf[js.String]
-      val video = allVideos(videoIndexStr.toInt)
-      index = 0
-      stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
-    }
-
-    // Create common graphics for painting stages
-    val cg: DoctusGraphics = {
-      val ctx: CanvasRenderingContext2D = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
-      ScalajsGraphics(ctx)
-    }
-
-    dom.setInterval(() => update, (1000.0 / framesPerSecond).ceil.toInt)
-
-    def update: Unit = {
-      val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width.toInt, canvas.height.toInt))
-      stagesOpt match {
-        case Some(stages) => {
-          val stage = stages(index)
-          // This is where the magic takes place
-          stage.stage.paint(cg, da, params)
-          if (index >= stages.size) stagesOpt = None
-        }
-        case None => {
-          Intro.stage(index).paint(cg, da, params)
-        }
-      }
-      index += 1
-    }
+    val dcanvas = ScalajsCanvas(canvas)
+    val dselectBox = ScalajsSelect[Video](selectBox, (v: Video) => v.text)
+    val dstartButton = ScalajsButton(startButton)
+    val dscheduler = ScalajsScheduler(canvas)
+    
+    GuiController(dcanvas, dselectBox, dstartButton, dscheduler)
 
   }
 
