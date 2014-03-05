@@ -4,9 +4,11 @@ import scala.concurrent.duration.DurationDouble
 import clashcode.video.lists.AkkaWorkshopResultsVideos
 import doctus.core._
 
-case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
-  startButton: CommonButton, scheduler: CommonScheduler) {
-
+case class GuiController(
+  canvas: DoctusCanvas,
+  selectBox: DoctusSelect[Video],
+  startButton: DoctusButton,
+  scheduler: DoctusScheduler) {
 
   val framesPerSecond = 25
   val params = StageParams(10, ImageProvider_V01, 0.6, 0.07)
@@ -24,7 +26,7 @@ case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
   }
 
   // Register callback for start button
-  startButton.click { () =>
+  startButton.onClick { () =>
     val video = selectBox.selectedItem
     index = 0
     stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))

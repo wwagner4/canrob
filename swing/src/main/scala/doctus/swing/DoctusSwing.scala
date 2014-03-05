@@ -56,7 +56,7 @@ case class SwingGraphics(graphics: Graphics2D) extends DoctusGraphics {
 
 }
 
-case class SwingCanvas(canvas: EasyCanvas) extends CommonCanvas {
+case class SwingCanvas(canvas: EasyCanvas) extends DoctusCanvas {
   def onRepaint(f: (DoctusGraphics) => Unit) = {
     canvas.paintOpt = Some(f)
   }
@@ -65,7 +65,7 @@ case class SwingCanvas(canvas: EasyCanvas) extends CommonCanvas {
   def height = canvas.size.getHeight.toInt
 }
 
-case class SwingSelect[T](comboBox: ComboBox[T]) extends CommonSelect[T] {
+case class SwingSelect[T](comboBox: ComboBox[T]) extends DoctusSelect[T] {
   import javax.swing._
   import scala.swing.ListView
 
@@ -77,15 +77,15 @@ case class SwingSelect[T](comboBox: ComboBox[T]) extends CommonSelect[T] {
   def selectedItem: T = peer.getSelectedItem().asInstanceOf[T]
 }
 
-case class SwingButton(button: Button) extends CommonButton {
-  def click(f: () => Unit): Unit = {
+case class SwingButton(button: Button) extends DoctusButton {
+  def onClick(f: () => Unit): Unit = {
     button.action = new Action(button.text) {
       def apply = f()
     }
   }
 }
 
-case class SwingScheduler(canvas: EasyCanvas) extends CommonScheduler {
+case class SwingScheduler(canvas: EasyCanvas) extends DoctusScheduler {
   import scala.concurrent._
   import scala.concurrent.ExecutionContext.Implicits.global
   def start(f: () => Unit, duration: Duration) = {
