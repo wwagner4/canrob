@@ -60,21 +60,20 @@ object VideoScalajsMain {
       val ctx: CanvasRenderingContext2D = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
       ScalajsGraphics(ctx)
     }
-    // Create DrawArea for painting stages
-    val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width.toInt, canvas.height.toInt))
 
     dom.setInterval(() => update, (1000.0 / framesPerSecond).ceil.toInt)
 
     def update: Unit = {
+      val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width.toInt, canvas.height.toInt))
       stagesOpt match {
         case Some(stages) => {
           val stage = stages(index)
           // This is where the magic takes place
-          stage.stage.paint(cg, () => da, params)
+          stage.stage.paint(cg, da, params)
           if (index >= stages.size) stagesOpt = None
         }
         case None => {
-          Intro.stage(index).paint(cg, () => da, params)
+          Intro.stage(index).paint(cg, da, params)
         }
       }
       index += 1

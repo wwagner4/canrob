@@ -54,7 +54,7 @@ trait CommonGraphics {
 sealed trait Stage {
 
   // Paints a complete frame of the video
-  def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit
+  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit
 
   // Utillity methods to be used in the implementation of paint
 
@@ -82,13 +82,12 @@ case class RobotView(pos: Pos, dir: Direction)
 
 case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
 
-  def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit = {
+  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     // Calculate the current DrawArea. Draw area is a lambda because it might change 
     // during showing the video. E.g. the swing device is resizeable
-    val da = drawArea()
     // Effective Field is the field without borders
-    val eda = EffectiveField.calc(da, params.widthHeightRatio, params.border)
+    val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
 
     def paintField: Unit = {
       g.setColor(Black)
@@ -112,7 +111,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
     }
 
     // Paint one frame
-    clear(g, da)
+    clear(g, drawArea)
     val visibleCans = cans - robot.pos
     paintField
     for (canPos <- visibleCans) {
@@ -132,13 +131,10 @@ case object Intro {
 
 case class IntroStage(index: Int) extends Stage {
 
-  def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit = {
+  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
-    // Calculate the current DrawArea. Draw area is a lambda because it might change 
-    // during showing the video. E.g. the swing device is resizeable
-    val da = drawArea()
     // Effective Field is the field without borders
-    val eda = EffectiveField.calc(da, params.widthHeightRatio, params.border)
+    val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
 
     def direction: Direction = {
       index % 8 match {
@@ -154,7 +150,7 @@ case class IntroStage(index: Int) extends Stage {
     }
     
     // Paint one frame
-    clear(g, da)
+    clear(g, drawArea)
     paintVideoImage(g, params.imgProvider.robots(direction), Pos(params.fieldSize, params.fieldSize), eda, params)
   }
 }
@@ -162,7 +158,7 @@ case class IntroStage(index: Int) extends Stage {
 case class Text(lines: List[String])
 
 case class TextStage(text: Text) extends Stage {
-  def paint(g: CommonGraphics, drawArea: () => DrawArea, params: StageParams): Unit = {
+  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     def paintText(text: Text, drawArea: DrawArea) = {
       g.setColor(Black)
@@ -178,10 +174,8 @@ case class TextStage(text: Text) extends Stage {
         g.drawString(lines(i), 30, y)
       }
     }
-
-    val da = drawArea()
-    clear(g, da)
-    paintText(text, da)
+    clear(g, drawArea)
+    paintText(text, drawArea)
   }
 }
 

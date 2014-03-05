@@ -24,7 +24,7 @@ class ImagesDevice  {
     val g2 = bi.createGraphics();
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     val cg = toCommonGraphics(g2)
-    stage.stage.paint(cg, () => da, stageParams)
+    stage.stage.paint(cg, da, stageParams)
 
     val home = new File(System.getProperty("user.home"))
     val outDir = new File(home, "video")

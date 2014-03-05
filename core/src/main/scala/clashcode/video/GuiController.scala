@@ -56,11 +56,11 @@ case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
       stagesOpt match {
         case Some(stages) => {
           val stage = stages(index)
-          stage.stage.paint(cg, () => da, params)
+          stage.stage.paint(cg, da, params)
           if (index >= stages.size) stagesOpt = None
         }
         case None => {
-          Intro.stage(index).paint(cg, () => da, params)
+          Intro.stage(index).paint(cg, da, params)
         }
       }
       index += 1
