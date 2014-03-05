@@ -9,7 +9,7 @@ import org.scalajs.jquery.{ JQuery, jQuery }
 import clashcode.video._
 import clashcode.video.lists.AkkaWorkshopResultsVideos
 import org.scalajs.dom.HTMLDivElement
-import clashcode.video.doctus._
+import doctus.core._
 
 object VideoScalajsMain {
 

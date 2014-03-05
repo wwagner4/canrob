@@ -1,8 +1,6 @@
 package clashcode.video
 
-import clashcode.video.doctus.CommonGraphics
-import clashcode.video.doctus.White
-import clashcode.video.doctus.Black
+import doctus.core._
 
 
 

@@ -1,4 +1,4 @@
-package clashcode.video.doctus
+package doctus.core
 
 import scala.concurrent.duration.Duration
 
@@ -18,8 +18,6 @@ trait CommonGraphics {
   def drawString(str: String, x: Int, y: Int)
 
 }
-
-
 
 trait CommonCanvas {
   def onRepaint(f: (CommonGraphics) => Unit): Unit
