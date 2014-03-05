@@ -63,19 +63,19 @@ case class ScalajsCanvas(canvas: HTMLCanvasElement) extends DoctusCanvas {
   def height = canvas.clientHeight.toInt
 }
 
-case class SwingSelect(selectBox: JQuery) extends DoctusSelect[Video] {
-  var allVideos = List.empty[Video]
-  def addItem(index: Int, item: Video): Unit = {
+case class ScalajsSelect[T](selectBox: JQuery, render: T => String) extends DoctusSelect[T] {
+  var allVideos = List.empty[T]
+  def addItem(index: Int, item: T): Unit = {
     val value = index
     val label = {
       val posi = "%5d." format (index + 1)
-      s"$posi ${item.text}"
+      s"$posi ${render(item)}"
     }
     val optionElem = (jQuery("<option/>")).attr("value", value).html(label)
     selectBox.append(optionElem)
     allVideos = item :: allVideos
   }
-  def selectedItem: Video = {
+  def selectedItem: T = {
     val videoIndexStr = selectBox.value().asInstanceOf[js.String]
     allVideos(videoIndexStr.toInt)
   }
