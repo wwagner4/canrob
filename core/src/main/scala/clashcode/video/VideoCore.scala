@@ -1,9 +1,12 @@
 package clashcode.video
 
 import clashcode.video.doctus.CommonGraphics
-import clashcode.video.doctus.Pos
 import clashcode.video.doctus.White
 import clashcode.video.doctus.Black
+
+
+
+case class Pos(x: Int, y: Int)
 
 case class Rec(w: Int, h: Int)
 
@@ -60,7 +63,7 @@ sealed trait Stage {
     val scale = (fieldWidth / vimg.size.w) * vimg.scaleFactor
     val imgx = (effPos.x - (vimg.center.x * scale)).toInt
     val imgy = (effPos.y - (vimg.center.y * scale)).toInt
-    g.drawImage(vimg.imgPath, Pos(imgx, imgy), scale)
+    g.drawImage(vimg.imgPath, imgx, imgy, scale)
   }
 
 }

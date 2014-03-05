@@ -2,7 +2,7 @@ package clashcode.video
 
 import scala.concurrent.duration.DurationDouble
 
-import clashcode.video.doctus.{CommonButton, CommonCanvas, CommonGraphics, CommonScheduler, CommonSelect, Pos}
+import clashcode.video.doctus.{CommonButton, CommonCanvas, CommonGraphics, CommonScheduler, CommonSelect}
 import clashcode.video.lists.AkkaWorkshopResultsVideos
 
 case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],

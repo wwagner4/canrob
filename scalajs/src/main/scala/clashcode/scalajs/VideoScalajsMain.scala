@@ -86,14 +86,14 @@ object VideoScalajsMain {
 
 case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends CommonGraphics {
 
-  def drawImage(imgPath: String, pos: Pos, scale: Double): Unit = {
+  def drawImage(imgPath: String, x: Int, y: Int, scale: Double): Unit = {
     val image = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
     image.src = "src/main/resources/" + imgPath
     image.alt = "an image"
     ctx.scale(scale, scale)
     try {
       // Might throw a resource not found exception from time to time
-      ctx.drawImage(image, pos.x / scale, pos.y / scale)
+      ctx.drawImage(image, x / scale, y / scale)
     } finally {
       ctx.scale(1 / scale, 1 / scale)
     }

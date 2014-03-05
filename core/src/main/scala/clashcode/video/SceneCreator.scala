@@ -3,7 +3,6 @@ package clashcode.video
 import scala.util.Random
 
 import clashcode.robot.{Converter, FieldEvaluator, FieldFactory, FieldPos, FieldState}
-import clashcode.video.doctus.Pos
 
 case class FieldStep(from: FieldState, to: FieldState)
 case class Path(path: List[FieldState], fieldSize: Int)

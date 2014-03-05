@@ -34,11 +34,11 @@ class EasyCanvas extends Panel {
 
 case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
 
-  def drawImage(imgPath: String, pos: Pos, scale: Double): Unit = {
+  def drawImage(imgPath: String, x: Int, y: Int, scale: Double): Unit = {
     val imgr = getClass().getClassLoader().getResource(imgPath)
     assert(imgr != null, s"Found no resource for ${imgPath}")
     val icon = new ImageIcon(imgr)
-    val trans = AffineTransform.getTranslateInstance(pos.x, pos.y)
+    val trans = AffineTransform.getTranslateInstance(x, y)
     trans.concatenate(AffineTransform.getScaleInstance(scale, scale))
     graphics.drawImage(icon.getImage(), trans, null)
   }

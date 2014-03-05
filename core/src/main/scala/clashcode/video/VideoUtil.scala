@@ -1,7 +1,5 @@
 package clashcode.video
 
-import clashcode.video.doctus.Pos
-
 object EffectiveField {
 
   def calc(outer: DrawArea, widthHeightRatio: Double, relBorder: Double): DrawArea = {
