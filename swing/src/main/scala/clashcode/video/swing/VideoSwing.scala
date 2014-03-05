@@ -20,6 +20,7 @@ import scala.swing.Button
 import scala.swing.Action
 import scala.concurrent.duration.Duration
 import javax.swing.SwingUtilities
+import clashcode.video.doctus._
 
 class EasyCanvas extends Panel {
 

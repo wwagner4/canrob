@@ -7,6 +7,7 @@ import clashcode.robot.FieldPos
 import clashcode.video._
 import scala.util.Random
 import clashcode.robot.FieldState
+import clashcode.video.doctus.Pos
 
 class SceneCreatorSuite extends FunSuite {
 

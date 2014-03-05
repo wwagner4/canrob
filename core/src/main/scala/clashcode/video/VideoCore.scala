@@ -1,6 +1,10 @@
 package clashcode.video
 
-case class Pos(x: Int, y: Int)
+import clashcode.video.doctus.CommonGraphics
+import clashcode.video.doctus.Pos
+import clashcode.video.doctus.White
+import clashcode.video.doctus.Black
+
 case class Rec(w: Int, h: Int)
 
 case class DrawArea(offset: Pos, area: Rec)
@@ -28,28 +32,11 @@ case class StageParams(
   imgProvider: ImageProvider,
   widthHeightRatio: Double, border: Double)
 
-sealed trait CommonColor
-case object Black extends CommonColor
-case object White extends CommonColor
-
 case class VideoImage(
   imgPath: String, // A path describing the location of the image
   size: Rec, // Size in pixel 
   center: Pos, // Position of the center of the image. (0, 0) would be the upper left corner
   scaleFactor: Double) // Scale factor relative to other used images. 
-
-trait CommonGraphics {
-
-  def setColor(c: CommonColor)
-  def setFontSize(size: Double)
-
-  def drawLine(fromx: Int, fromy: Int, tox: Int, toy: Int)
-  def drawRect(p1x: Int, p1y: Int, p2x: Int, p2y: Int)
-  def fillRect(p1x: Int, p1y: Int, p2x: Int, p2y: Int)
-  def drawImage(imgPath: String, pos: Pos, scale: Double)
-  def drawString(str: String, x: Int, y: Int)
-
-}
 
 sealed trait Stage {
 

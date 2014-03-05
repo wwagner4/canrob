@@ -1,28 +1,9 @@
 package clashcode.video
 
+import scala.concurrent.duration.DurationDouble
+
+import clashcode.video.doctus.{CommonButton, CommonCanvas, CommonGraphics, CommonScheduler, CommonSelect, Pos}
 import clashcode.video.lists.AkkaWorkshopResultsVideos
-import scala.concurrent.duration.Duration
-import scala.concurrent.duration._
-
-trait CommonCanvas {
-  def onRepaint(f: (CommonGraphics) => Unit): Unit
-  def repaint: Unit
-  def width: Int
-  def height: Int
-}
-
-trait CommonSelect[T] {
-  def addItem(index: Int, item: T): Unit
-  def selectedItem: T
-}
-
-trait CommonButton {
-  def click(f: () => Unit): Unit
-}
-
-trait CommonScheduler {
-  def start(f: () => Unit, duration: Duration)
-}
 
 case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
   startButton: CommonButton, scheduler: CommonScheduler) {

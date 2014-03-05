@@ -3,9 +3,9 @@ package clashcode.video.swing
 import java.awt.{Graphics2D, RenderingHints}
 import java.awt.image.BufferedImage
 import java.io.File
-
-import clashcode.video.{CommonGraphics, DrawArea, ImageProvider_V01, NumberedStage, Pos, Rec, StageParams}
+import clashcode.video.{DrawArea, ImageProvider_V01, NumberedStage, Rec, StageParams}
 import javax.imageio.ImageIO
+import clashcode.video.doctus._
 
 class ImagesDevice  {
 
