@@ -25,7 +25,6 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   var awtgOpt: Option[Graphics2D] = None
 
   val canvas = new Panel {
-    
     override def paint(awtg: Graphics2D): Unit = {
       awtgOpt = Some(awtg)
     }
@@ -58,8 +57,8 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
       canvas.size.getWidth().toInt
     }
     def height = canvas.size.getHeight.toInt
+    def graphics = awtgOpt.map(awtg => ImageAwtGraphics(awtg))		
   }
-  def cgraphics = () => awtgOpt.map(awtg => ImageAwtGraphics(awtg))
 
   val cselectBox = new CommonSelect[Video] {
     import javax.swing._
@@ -100,7 +99,7 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     }
   }
 
-  GuiController(ccanvas, cgraphics, cselectBox: CommonSelect[Video], cstartButton, cschedular)
+  GuiController(ccanvas, cselectBox: CommonSelect[Video], cstartButton, cschedular)
 
   val mf = new MainFrame()
   mf.contents = content

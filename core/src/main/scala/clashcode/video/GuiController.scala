@@ -5,6 +5,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 
 trait CommonCanvas {
+  def graphics: Option[CommonGraphics]
   def width: Int
   def height: Int
 }
@@ -22,7 +23,7 @@ trait CommonSchedular {
   def start(f: () => Unit, duration: Duration)
 }
 
-case class GuiController(canvas: CommonCanvas, graphics: () => Option[CommonGraphics], selectBox: CommonSelect[Video],
+case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
   startButton: CommonButton, schedular: CommonSchedular) {
 
   val framesPerSecond = 15
@@ -51,7 +52,7 @@ case class GuiController(canvas: CommonCanvas, graphics: () => Option[CommonGrap
 
   def update: Unit = {
     val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
-    graphics().foreach(cg => {
+    canvas.graphics.foreach(cg => {
       stagesOpt match {
         case Some(stages) => {
           val stage = stages(index)
