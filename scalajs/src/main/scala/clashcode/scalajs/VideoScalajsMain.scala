@@ -114,7 +114,7 @@ case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends CommonGraphics
   def drawString(str: String, x: Int, y: Int): Unit = {
     ctx.fillText(str, x, y)
   }
-  def setColor(c: CommonColor): Unit = {
+  def setColor(c: DoctusColor): Unit = {
     c match {
       case Black => ctx.fillStyle = "black"
       case White => ctx.fillStyle = "white"

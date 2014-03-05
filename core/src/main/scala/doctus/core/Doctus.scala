@@ -2,13 +2,13 @@ package doctus.core
 
 import scala.concurrent.duration.Duration
 
-sealed trait CommonColor
-case object Black extends CommonColor
-case object White extends CommonColor
+sealed trait DoctusColor
+case object Black extends DoctusColor
+case object White extends DoctusColor
 
 trait CommonGraphics {
 
-  def setColor(c: CommonColor)
+  def setColor(c: DoctusColor)
   def setFontSize(size: Double)
 
   def drawLine(fromx: Int, fromy: Int, tox: Int, toy: Int)

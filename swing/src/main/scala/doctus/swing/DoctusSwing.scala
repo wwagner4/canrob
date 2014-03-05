@@ -8,7 +8,7 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.future
 import scala.swing.{Action, Button, ComboBox, Panel}
 
-import doctus.core.{Black, CommonButton, CommonCanvas, CommonColor, CommonGraphics, CommonScheduler, CommonSelect, White}
+import doctus.core._
 import javax.swing.{DefaultComboBoxModel, ImageIcon, JComboBox}
 
 class EasyCanvas extends Panel {
@@ -43,7 +43,7 @@ case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
   def drawString(str: String, x: Int, y: Int): Unit = {
     graphics.drawString(str, x, y)
   }
-  def setColor(c: CommonColor): Unit = {
+  def setColor(c: DoctusColor): Unit = {
     c match {
       case Black => graphics.setColor(Color.BLACK)
       case White => graphics.setColor(Color.WHITE)
