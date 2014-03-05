@@ -11,7 +11,7 @@ import clashcode.video.ImageProvider_V02
 
 object VideoSwingMain extends App {
 
-  val framesPerSecond = 20
+  val framesPerSecond = 1
 
   //val vl = AkkaWorkshopPresentationVideos.videos
   //val vl = AkkaWorkshopWinnerVideos.winner

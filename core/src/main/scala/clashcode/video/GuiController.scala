@@ -48,13 +48,11 @@ case class GuiController(canvas: CommonCanvas, graphics: () => Option[CommonGrap
     stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
   }
 
-  // Create DrawArea for painting stages
-  val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
-
   schedular.start(() => update, (1000.0 / framesPerSecond).millis)
 
   def update: Unit = {
-    println("--GUI-- update was called")
+    val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
+    println(s"--GUI-- update was called. da=$da")
     graphics().foreach(cg => {
       stagesOpt match {
         case Some(stages) => {

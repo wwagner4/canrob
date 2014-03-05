@@ -25,11 +25,9 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   var awtgOpt: Option[Graphics2D] = None
 
   val canvas = new Panel {
-
-    def determineCalcArea: DrawArea = {
-      DrawArea(Pos(0, 0), Rec(this.size.width, this.size.height))
-    }
+    
     override def paint(awtg: Graphics2D): Unit = {
+      println(s"--Panel(canvas)-- $size")
       awtgOpt = Some(awtg)
     }
   }
@@ -41,7 +39,10 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
       if (value.size < max) value
       else value.substring(0, max - 3) + "..."
     }
-    renderer = Renderer(v => trim(v.text.replace("\n", "")))
+    renderer = Renderer(v => {
+      if (v != null) trim(v.text.replace("\n", ""))
+      else ""
+    })
   }
 
   val startButton = new Button("Start")
@@ -54,7 +55,10 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   }
 
   val ccanvas: CommonCanvas = new CommonCanvas {
-    def width = canvas.size.getWidth().toInt
+    def width = {
+      println(s"-- CommonCanvas -- ${canvas.size} ")
+      canvas.size.getWidth().toInt
+    }
     def height = canvas.size.getHeight.toInt
   }
   def cgraphics = () => awtgOpt.map(awtg => ImageAwtGraphics(awtg))
@@ -90,6 +94,7 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
       future {
         while (true) {
           f()
+          canvas.repaint
           val ms = duration.toMillis
           println(s"--CommonSchedular-- sleeping for $ms ms")
           Thread.sleep(ms)
@@ -98,8 +103,7 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     }
   }
 
-  GuiController(ccanvas, cgraphics, cselectBox: CommonSelect[Video],
-    cstartButton, cschedular)
+  GuiController(ccanvas, cgraphics, cselectBox: CommonSelect[Video], cstartButton, cschedular)
 
   val mf = new MainFrame()
   mf.contents = content
