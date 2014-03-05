@@ -43,7 +43,7 @@ class ImagesDevice  {
       throw new IllegalStateException(s"Error creating directory '$outDir'")
     }
   }
-  private def toCommonGraphics(g: Graphics2D): CommonGraphics = {
+  private def toCommonGraphics(g: Graphics2D): DoctusGraphics = {
     new SwingGraphics(g) {
       def drawArea: DrawArea = DrawArea(Pos(0, 0), res)
     }

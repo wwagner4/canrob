@@ -13,7 +13,7 @@ import javax.swing.{DefaultComboBoxModel, ImageIcon, JComboBox}
 
 class EasyCanvas extends Panel {
 
-  var paintOpt: Option[(CommonGraphics) => Unit] = None
+  var paintOpt: Option[(DoctusGraphics) => Unit] = None
 
   override def paint(g: Graphics2D): Unit = {
     val commonGraphics = SwingGraphics(g)
@@ -21,7 +21,7 @@ class EasyCanvas extends Panel {
   }
 }
 
-case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
+case class SwingGraphics(graphics: Graphics2D) extends DoctusGraphics {
 
   def drawImage(imgPath: String, x: Int, y: Int, scale: Double): Unit = {
     val imgr = getClass().getClassLoader().getResource(imgPath)
@@ -57,7 +57,7 @@ case class SwingGraphics(graphics: Graphics2D) extends CommonGraphics {
 }
 
 case class SwingCanvas(canvas: EasyCanvas) extends CommonCanvas {
-  def onRepaint(f: (CommonGraphics) => Unit) = {
+  def onRepaint(f: (DoctusGraphics) => Unit) = {
     canvas.paintOpt = Some(f)
   }
   def repaint = canvas.repaint

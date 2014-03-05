@@ -6,7 +6,7 @@ sealed trait DoctusColor
 case object Black extends DoctusColor
 case object White extends DoctusColor
 
-trait CommonGraphics {
+trait DoctusGraphics {
 
   def setColor(c: DoctusColor)
   def setFontSize(size: Double)
@@ -20,7 +20,7 @@ trait CommonGraphics {
 }
 
 trait CommonCanvas {
-  def onRepaint(f: (CommonGraphics) => Unit): Unit
+  def onRepaint(f: (DoctusGraphics) => Unit): Unit
   def repaint: Unit
   def width: Int
   def height: Int

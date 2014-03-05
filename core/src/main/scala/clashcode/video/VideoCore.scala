@@ -42,11 +42,11 @@ case class VideoImage(
 sealed trait Stage {
 
   // Paints a complete frame of the video
-  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit
+  def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit
 
   // Utillity methods to be used in the implementation of paint
 
-  def clear(g: CommonGraphics, drawArea: DrawArea): Unit = {
+  def clear(g: DoctusGraphics, drawArea: DrawArea): Unit = {
     g.setColor(White)
     val x = drawArea.offset.x
     val y = drawArea.offset.y
@@ -55,7 +55,7 @@ sealed trait Stage {
     g.fillRect(x, y, w, h)
   }
 
-  protected def paintVideoImage(g: CommonGraphics, vimg: VideoImage, pos: Pos, eda: DrawArea, params: StageParams): Unit = {
+  protected def paintVideoImage(g: DoctusGraphics, vimg: VideoImage, pos: Pos, eda: DrawArea, params: StageParams): Unit = {
     val effPos: Pos = EffectiveOffset.calc(pos, params.fieldSize, eda)
     val fieldWidth = eda.area.w.toDouble / params.fieldSize
     val scale = (fieldWidth / vimg.size.w) * vimg.scaleFactor
@@ -70,7 +70,7 @@ case class RobotView(pos: Pos, dir: Direction)
 
 case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
 
-  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
+  def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     // Calculate the current DrawArea. Draw area is a lambda because it might change 
     // during showing the video. E.g. the swing device is resizeable
@@ -119,7 +119,7 @@ case object Intro {
 
 case class IntroStage(index: Int) extends Stage {
 
-  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
+  def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     // Effective Field is the field without borders
     val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
@@ -146,7 +146,7 @@ case class IntroStage(index: Int) extends Stage {
 case class Text(lines: List[String])
 
 case class TextStage(text: Text) extends Stage {
-  def paint(g: CommonGraphics, drawArea: DrawArea, params: StageParams): Unit = {
+  def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     def paintText(text: Text, drawArea: DrawArea) = {
       g.setColor(Black)

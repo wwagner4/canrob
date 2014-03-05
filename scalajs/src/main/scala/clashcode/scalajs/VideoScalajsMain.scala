@@ -57,7 +57,7 @@ object VideoScalajsMain {
     }
 
     // Create common graphics for painting stages
-    val cg: CommonGraphics = {
+    val cg: DoctusGraphics = {
       val ctx: CanvasRenderingContext2D = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
       ScalajsGraphics(ctx)
     }
@@ -84,7 +84,7 @@ object VideoScalajsMain {
 
 }
 
-case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends CommonGraphics {
+case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics {
 
   def drawImage(imgPath: String, x: Int, y: Int, scale: Double): Unit = {
     val image = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]

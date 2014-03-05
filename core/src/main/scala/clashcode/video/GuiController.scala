@@ -34,7 +34,7 @@ case class GuiController(canvas: CommonCanvas, selectBox: CommonSelect[Video],
 
   canvas.onRepaint(update)
 
-  def update(cg: CommonGraphics): Unit = {
+  def update(cg: DoctusGraphics): Unit = {
     val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
     stagesOpt match {
       case Some(stages) => {
