@@ -3,9 +3,12 @@ package doctus.scalajs
 import doctus.core._
 import org.scalajs.dom
 import org.scalajs.dom._
-import org.scalajs.jquery.JQuery
 import scala.concurrent.duration.Duration
-
+import org.scalajs.jquery.{ JQuery, jQuery }
+import scala.scalajs.js
+import scala.scalajs.js.Any.{ fromDouble, fromFunction0, fromInt, fromString, stringOps }
+import scala.scalajs.js.Number.toDouble
+import clashcode.video.Video
 
 case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics {
 
@@ -49,25 +52,42 @@ case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics
 
 }
 
-
 case class ScalajsCanvas(canvas: HTMLCanvasElement) extends DoctusCanvas {
-  def onRepaint(f: (DoctusGraphics) => Unit) = ???
-  def repaint = ???
+  var fopt: Option[(DoctusGraphics) => Unit] = None
+  def onRepaint(f: (DoctusGraphics) => Unit) = fopt = Some(f)
+  def repaint = {
+    val ctx: CanvasRenderingContext2D = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+    fopt foreach (f => f(ScalajsGraphics(ctx)))
+  }
   def width = canvas.clientWidth.toInt
   def height = canvas.clientHeight.toInt
 }
 
-case class SwingSelect[T](selectBox: JQuery) extends DoctusSelect[T] {
-  def addItem(index: Int, item: T): Unit = ???
-  def selectedItem: T = ???
+case class SwingSelect(selectBox: JQuery) extends DoctusSelect[Video] {
+  var allVideos = List.empty[Video]
+  def addItem(index: Int, item: Video): Unit = {
+    val value = index
+    val label = {
+      val posi = "%5d." format (index + 1)
+      s"$posi ${item.text}"
+    }
+    val optionElem = (jQuery("<option/>")).attr("value", value).html(label)
+    selectBox.append(optionElem)
+    allVideos = item :: allVideos
+  }
+  def selectedItem: Video = {
+    val videoIndexStr = selectBox.value().asInstanceOf[js.String]
+    allVideos(videoIndexStr.toInt)
+  }
 }
 
 case class ScalajsButton(startButton: JQuery) extends DoctusButton {
-  def onClick(f: () => Unit): Unit = ???
+  def onClick(f: () => Unit): Unit =
+    startButton.click { () => f() }
 }
 
 case class ScalajsScheduler(canvas: HTMLCanvasElement) extends DoctusScheduler {
-  def start(f: () => Unit, duration: Duration) = ???
+  def start(f: () => Unit, duration: Duration) = dom.setInterval(() => f, duration.toMillis)
 }
 
 
