@@ -76,7 +76,9 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
   val cstartButton = new CommonButton {
     def click(f: () => Unit): Unit = {
       startButton.action = new Action("Start") {
-        def apply = f()
+        def apply = {
+          f()
+        }
       }
     }
   }
@@ -88,7 +90,9 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
       future {
         while (true) {
           f()
-          Thread.sleep(duration.length)
+          val ms = duration.toMillis
+          println(s"--CommonSchedular-- sleeping for $ms ms")
+          Thread.sleep(ms)
         }
       }
     }
