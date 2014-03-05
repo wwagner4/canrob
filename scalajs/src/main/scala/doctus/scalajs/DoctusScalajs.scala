@@ -3,6 +3,8 @@ package doctus.scalajs
 import doctus.core._
 import org.scalajs.dom
 import org.scalajs.dom._
+import org.scalajs.jquery.JQuery
+import scala.concurrent.duration.Duration
 
 
 case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics {
@@ -46,3 +48,26 @@ case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics
   }
 
 }
+
+
+case class ScalajsCanvas(canvas: HTMLCanvasElement) extends DoctusCanvas {
+  def onRepaint(f: (DoctusGraphics) => Unit) = ???
+  def repaint = ???
+  def width = canvas.clientWidth.toInt
+  def height = canvas.clientHeight.toInt
+}
+
+case class SwingSelect[T](selectBox: JQuery) extends DoctusSelect[T] {
+  def addItem(index: Int, item: T): Unit = ???
+  def selectedItem: T = ???
+}
+
+case class ScalajsButton(startButton: JQuery) extends DoctusButton {
+  def onClick(f: () => Unit): Unit = ???
+}
+
+case class ScalajsScheduler(canvas: HTMLCanvasElement) extends DoctusScheduler {
+  def start(f: () => Unit, duration: Duration) = ???
+}
+
+
