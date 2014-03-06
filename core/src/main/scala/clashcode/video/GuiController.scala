@@ -4,59 +4,53 @@ import scala.concurrent.duration.DurationDouble
 import clashcode.video.lists.AkkaWorkshopResultsVideos
 import doctus.core._
 
-trait GuiComponents {
-  def canvas: DoctusCanvas
-  def selectBox: DoctusSelect[Video]
-  def startButton: DoctusButton
-  def scheduler: DoctusScheduler
-}
+case class GuiController(
+  canvas: DoctusCanvas,
+  selectBox: DoctusSelect[Video],
+  startButton: DoctusButton,
+  scheduler: DoctusScheduler) {
 
-trait GuiParams {
-  def framesPerSecond: Int
-  def stageParams: StageParams
-  def videos: List[Video]
-}
-
-/**
- * Implementation of the platform independent GUI-controller 
- */
-case class GuiController(c: GuiComponents, p: GuiParams) {
+  val framesPerSecond = 25
+  val params = StageParams(10, ImageProvider_V01, 0.6, 0.07)
+  val allVideos = AkkaWorkshopResultsVideos.all
 
   // Global state
   var index = 0
   var stagesOpt: Option[List[NumberedStage]] = None
 
   // Fill the select box
-  p.videos.zipWithIndex.foreach {
+  allVideos.zipWithIndex.foreach {
     case (video, index) => {
-      c.selectBox.addItem(index, video)
+      selectBox.addItem(index, video)
     }
   }
 
-  // Define callback for start button
-  c.startButton.onClick { () =>
-    val video = c.selectBox.selectedItem
+  // Register callback for start button
+  startButton.onClick { () =>
+    val video = selectBox.selectedItem
     index = 0
-    stagesOpt = Some(VideoCreator.create(List(video), p.framesPerSecond))
+    stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
   }
 
-  // Define callback for repaint
-  c.canvas.onRepaint { (cg: DoctusGraphics) =>
-    val da: DrawArea = DrawArea(Pos(0, 0), Rec(c.canvas.width, c.canvas.height))
-    stagesOpt match {
-      case Some(stages) => {
-        val stage = stages(index)
-        stage.stage.paint(cg, da, p.stageParams)
-        if (index >= stages.size - 1) stagesOpt = None
+  val d1 = (1000.0 / framesPerSecond).toInt
+  scheduler.start(() => canvas.repaint, d1)
+
+  // Register callback for repaint
+  canvas.onRepaint { (cg: DoctusGraphics) =>
+    {
+      val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
+      stagesOpt match {
+        case Some(stages) => {
+          val stage = stages(index)
+          stage.stage.paint(cg, da, params)
+          if (index >= stages.size - 1) stagesOpt = None
+        }
+        case None => {
+          Intro.stage(index).paint(cg, da, params)
+        }
       }
-      case None => {
-        Intro.stage(index).paint(cg, da, p.stageParams)
-      }
+      index += 1
     }
-    index += 1
   }
-
-  // Start the scheduler
-  c.scheduler.start(() => c.canvas.repaint, (1000.0 / p.framesPerSecond).toInt)
 
 }

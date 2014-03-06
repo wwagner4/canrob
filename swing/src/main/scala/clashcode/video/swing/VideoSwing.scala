@@ -15,18 +15,12 @@ import java.awt.Dimension
 import doctus.swing.SwingSelect
 import doctus.swing.SwingButton
 import doctus.swing.SwingScheduler
-import clashcode.video.ImageProvider_V02
-import clashcode.video.lists.AkkaWorkshopResultsVideos
-import clashcode.video.GuiParams
-import clashcode.video.GuiComponents
 
 case class SwingDevice(framesPerSecond: Int, params: StageParams) {
 
-  // Define the actual swing components 	
-  val _canvas = new EasyCanvas()
-  val _startButton = new Button("Start")
-  val _comboBox = new ComboBox(List.empty[Video]) {
-    // Define the rendering of the contents of the combo box
+  val canvas = new EasyCanvas()
+
+  val comboBox = new ComboBox(List.empty[Video]) {
     import scala.swing.ListView.Renderer
     val max = 100
     def trim(value: String): String = {
@@ -39,36 +33,27 @@ case class SwingDevice(framesPerSecond: Int, params: StageParams) {
     })
   }
 
-  // Define the main frame and layout of the components
-  val mf = new MainFrame()
-  mf.contents = new BorderPanel() {
-    val compPanel = new FlowPanel(_comboBox, _startButton)
+  val startButton = new Button("Start")
+
+  val compPanel = new FlowPanel(comboBox, startButton)
+
+  val content = new BorderPanel() {
     add(compPanel, BorderPanel.Position.North)
-    add(_canvas, BorderPanel.Position.Center)
+    add(canvas, BorderPanel.Position.Center)
   }
+
+  GuiController(SwingCanvas(canvas),
+    SwingSelect[Video](comboBox),
+    SwingButton(startButton),
+    SwingScheduler(canvas))
+
+  val mf = new MainFrame()
+  mf.contents = content
   mf.title = "Akka Workshop Reloaded"
   mf.iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
   //mf.size = mf.toolkit.getScreenSize()
   mf.size = new Dimension(800, 600)
   mf.visible = true;
-
-  // Create the necessary wrapper components
-  val c = new GuiComponents {
-    def canvas = SwingCanvas(_canvas)
-    def selectBox = SwingSelect[Video](_comboBox)
-    def startButton = SwingButton(_startButton)
-    def scheduler = SwingScheduler(_canvas)
-  }
-
-  // Define some parameters
-  val p = new GuiParams {
-    def framesPerSecond = 10
-    def stageParams = StageParams(10, ImageProvider_V02, 0.6, 0.07)
-    def videos = AkkaWorkshopResultsVideos.all
-  }
-
-  // Start the GUI-controller
-  GuiController(c, p)
 
 }
 
