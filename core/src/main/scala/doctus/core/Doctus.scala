@@ -36,6 +36,9 @@ trait DoctusButton {
 }
 
 trait DoctusScheduler {
-  def start(f: () => Unit, duration: Duration)
+  /**
+   * duration: in milliseconds
+   */
+  def start(f: () => Unit, duration: Int)
 }
 

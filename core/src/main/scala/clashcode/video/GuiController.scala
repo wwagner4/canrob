@@ -27,16 +27,20 @@ case class GuiController(
 
   // Register callback for start button
   startButton.onClick { () =>
+    println("onClick")
     val video = selectBox.selectedItem
     index = 0
     stagesOpt = Some(VideoCreator.create(List(video), framesPerSecond))
   }
 
-  scheduler.start(() => canvas.repaint, (1000.0 / framesPerSecond).millis)
+  val d1 = (1000.0 / framesPerSecond).toInt
+  scheduler.start(() => canvas.repaint, d1)
 
+  println("--main-- started scheduler")
   canvas.onRepaint(update)
 
   def update(cg: DoctusGraphics): Unit = {
+    println("update")
     val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
     stagesOpt match {
       case Some(stages) => {

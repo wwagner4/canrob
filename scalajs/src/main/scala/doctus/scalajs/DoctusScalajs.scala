@@ -54,9 +54,15 @@ case class ScalajsGraphics(ctx: CanvasRenderingContext2D) extends DoctusGraphics
 
 case class ScalajsCanvas(canvas: HTMLCanvasElement) extends DoctusCanvas {
   var fopt: Option[(DoctusGraphics) => Unit] = None
-  def onRepaint(f: (DoctusGraphics) => Unit) = fopt = Some(f)
+  def onRepaint(f: (DoctusGraphics) => Unit) = {
+    println(s"--onRepaint $f--")
+    fopt = Some(f)
+  }
   def repaint = {
+    println("--repaint--")
     val ctx: CanvasRenderingContext2D = canvas.getContext("2d").asInstanceOf[CanvasRenderingContext2D]
+    println(s"--repaint-- $ctx")
+    println(s"--repaint-- $fopt")
     fopt foreach (f => f(ScalajsGraphics(ctx)))
   }
   def width = canvas.clientWidth.toInt
@@ -87,7 +93,7 @@ case class ScalajsButton(startButton: JQuery) extends DoctusButton {
 }
 
 case class ScalajsScheduler(canvas: HTMLCanvasElement) extends DoctusScheduler {
-  def start(f: () => Unit, duration: Duration) = dom.setInterval(() => f, duration.toMillis)
+  def start(f: () => Unit, duration: Int) = dom.setInterval(f, duration)
 }
 
 

@@ -37,6 +37,7 @@ object VideoScalajsMain {
     val dstartButton = ScalajsButton(startButton)
     val dscheduler = ScalajsScheduler(canvas)
     
+    println("--- main 001")
     GuiController(dcanvas, dselectBox, dstartButton, dscheduler)
 
   }

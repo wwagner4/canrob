@@ -88,12 +88,12 @@ case class SwingButton(button: Button) extends DoctusButton {
 case class SwingScheduler(canvas: EasyCanvas) extends DoctusScheduler {
   import scala.concurrent._
   import scala.concurrent.ExecutionContext.Implicits.global
-  def start(f: () => Unit, duration: Duration) = {
+  def start(f: () => Unit, duration: Int) = {
     future {
       while (true) {
         f()
         canvas.repaint
-        Thread.sleep(duration.toMillis)
+        Thread.sleep(duration)
       }
     }
   }
