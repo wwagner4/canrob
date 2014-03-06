@@ -13,7 +13,7 @@ object CanrobBuild extends Build {
 
   object D {
     val scalaVersion = "2.10.3"
-    val doctusVersion = "1.0.0"
+    val doctusVersion = "1.0.1-SNAPSHOT"
   }
 
   object S {
@@ -24,6 +24,7 @@ object CanrobBuild extends Build {
           organization := "net.entelijan",
           organizationHomepage := Some(url("http://entelijan.net/")),
           libraryDependencies += "org.scalatest" %% "scalatest" % "2.0" % "test",
+          resolvers += "entelijan" at "http://entelijan.net/artifactory/repo/",
           EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
           EclipseKeys.withSource := true)
 
@@ -63,18 +64,18 @@ object CanrobBuild extends Build {
     base = file("."),
     settings = S.defaultSettings)
     .aggregate(core, swing, scalajs)
-    
+
   lazy val core = Project(
     id = "canrob-core",
     base = file("core"),
     settings = S.coreSettings)
-    
+
   lazy val swing = Project(
     id = "canrob-swing",
     base = file("swing"),
     settings = S.swingSettings)
     .dependsOn(core)
-    
+
   lazy val scalajs = Project(
     id = "canrob-scalajs",
     base = file("scalajs"),
