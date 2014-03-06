@@ -9,6 +9,10 @@ import doctus.core._
 import doctus.swing._
 import clashcode.video.Pos
 
+/**
+ * Creates images in a directory that can be used to create videos afterward
+ * by using appropriate tools.
+ */
 class ImagesDevice  {
 
   //val res = Rec(3840, 2160) // 2160p
@@ -25,7 +29,7 @@ class ImagesDevice  {
     val da = DrawArea(Pos(0, 0), Rec(res.w, res.h))
     val g2 = bi.createGraphics();
     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    val cg = toCommonGraphics(g2)
+    val cg = new SwingGraphics(g2)
     stage.stage.paint(cg, da, stageParams)
 
     val home = new File(System.getProperty("user.home"))
@@ -41,11 +45,6 @@ class ImagesDevice  {
       println(s"Wrote file $file")
     } else {
       throw new IllegalStateException(s"Error creating directory '$outDir'")
-    }
-  }
-  private def toCommonGraphics(g: Graphics2D): DoctusGraphics = {
-    new SwingGraphics(g) {
-      def drawArea: DrawArea = DrawArea(Pos(0, 0), res)
     }
   }
 }
