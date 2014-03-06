@@ -1,11 +1,12 @@
 package doctus.core
 
-import scala.concurrent.duration.Duration
-
 sealed trait DoctusColor
 case object Black extends DoctusColor
 case object White extends DoctusColor
 
+/**
+ * Some basic drawing functions  
+ */
 trait DoctusGraphics {
 
   def setColor(c: DoctusColor)
@@ -20,8 +21,16 @@ trait DoctusGraphics {
 }
 
 trait DoctusCanvas {
+  /**
+   * Defines a paint function f that gets triggert whenever
+   * repaint is called
+   */
   def onRepaint(f: (DoctusGraphics) => Unit): Unit
+  /**
+   * Creates a DoctusGraphics from the underlayin system and calls onRepaint.
+   */
   def repaint: Unit
+  
   def width: Int
   def height: Int
 }
@@ -32,12 +41,15 @@ trait DoctusSelect[T] {
 }
 
 trait DoctusButton {
+  /**
+   * Defines a function that gets called whenever the button is clicked
+   */
   def onClick(f: () => Unit): Unit
 }
 
 trait DoctusScheduler {
   /**
-   * duration: in milliseconds
+   * Calls the function f every 'duration' milliseconds
    */
   def start(f: () => Unit, duration: Int)
 }
