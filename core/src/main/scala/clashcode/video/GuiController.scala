@@ -35,20 +35,22 @@ case class GuiController(
   val d1 = (1000.0 / framesPerSecond).toInt
   scheduler.start(() => canvas.repaint, d1)
 
-  canvas.onRepaint(update)
-
-  def update(cg: DoctusGraphics): Unit = {
-    val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
-    stagesOpt match {
-      case Some(stages) => {
-        val stage = stages(index)
-        stage.stage.paint(cg, da, params)
-        if (index >= stages.size - 1) stagesOpt = None
+  // Register callback for repaint
+  canvas.onRepaint { (cg: DoctusGraphics) =>
+    {
+      val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
+      stagesOpt match {
+        case Some(stages) => {
+          val stage = stages(index)
+          stage.stage.paint(cg, da, params)
+          if (index >= stages.size - 1) stagesOpt = None
+        }
+        case None => {
+          Intro.stage(index).paint(cg, da, params)
+        }
       }
-      case None => {
-        Intro.stage(index).paint(cg, da, params)
-      }
+      index += 1
     }
-    index += 1
   }
+
 }

@@ -30,7 +30,7 @@ object VideoScalajsMain {
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
     canvas.width = center.clientWidth
-    canvas.height = canvas.width * 0.9
+    canvas.height = canvas.width * 0.7
 
     val dcanvas = ScalajsCanvas(canvas)
     val dselectBox = ScalajsSelect[Video](selectBox, (v: Video) => v.text)
