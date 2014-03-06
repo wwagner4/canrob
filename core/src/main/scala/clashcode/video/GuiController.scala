@@ -8,11 +8,10 @@ case class GuiController(
   canvas: DoctusCanvas,
   selectBox: DoctusSelect[Video],
   startButton: DoctusButton,
-  scheduler: DoctusScheduler) {
-
-  val framesPerSecond = 25
-  val params = StageParams(10, ImageProvider_V01, 0.6, 0.07)
-  val allVideos = AkkaWorkshopResultsVideos.all
+  scheduler: DoctusScheduler,
+  framesPerSecond: Int,
+  stageParams: StageParams,
+  allVideos: List[Video]) {
 
   // Global state
   var index = 0
@@ -42,11 +41,11 @@ case class GuiController(
       stagesOpt match {
         case Some(stages) => {
           val stage = stages(index)
-          stage.stage.paint(cg, da, params)
+          stage.stage.paint(cg, da, stageParams)
           if (index >= stages.size - 1) stagesOpt = None
         }
         case None => {
-          Intro.stage(index).paint(cg, da, params)
+          Intro.stage(index).paint(cg, da, stageParams)
         }
       }
       index += 1

@@ -16,11 +16,6 @@ object VideoScalajsMain {
 
   // Comes here on every refresh (update)
   def main(): Unit = {
-    // Some configuration
-    val framesPerSecond = 15
-    val params = StageParams(10, ImageProvider_V01, 0.9, 0.07)
-    val allVideos = AkkaWorkshopResultsVideos.all
-
     // GUI Components form the HTML-Page
     val center: HTMLDivElement = dom.document.getElementById("centerDiv").asInstanceOf[HTMLDivElement]
     val canvas: HTMLCanvasElement = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
@@ -37,7 +32,12 @@ object VideoScalajsMain {
     val dstartButton = ScalajsButton(startButton)
     val dscheduler = ScalajsScheduler(canvas)
     
-    GuiController(dcanvas, dselectBox, dstartButton, dscheduler)
+    // Some configuration
+    val framesPerSecond = 15
+    val params = StageParams(10, ImageProvider_V01, 0.9, 0.07)
+    val allVideos = AkkaWorkshopResultsVideos.all
+
+    GuiController(dcanvas, dselectBox, dstartButton, dscheduler, framesPerSecond, params, allVideos)
 
   }
 
