@@ -13,6 +13,7 @@ object CanrobBuild extends Build {
 
   object D {
     val scalaVersion = "2.10.3"
+    val doctusVersion = "1.0.0"
   }
 
   object S {
@@ -35,14 +36,14 @@ object CanrobBuild extends Build {
       defaultSettings ++
         scalaJSSettings ++
         Seq(
-          libraryDependencies += "net.entelijan" %% "doctus-core" % "1.0.0",
+          libraryDependencies += "net.entelijan" %% "doctus-core" % D.doctusVersion,
           fork := true)
 
     lazy val swingSettings =
       defaultSettings ++
         Seq(
           libraryDependencies += "org.scala-lang" % "scala-swing" % D.scalaVersion,
-          libraryDependencies += "net.entelijan" %% "doctus-swing" % "1.0.0",
+          libraryDependencies += "net.entelijan" %% "doctus-swing" % D.doctusVersion,
           fork := true)
 
     lazy val scalajsSettings =
@@ -51,7 +52,7 @@ object CanrobBuild extends Build {
         Seq(
           libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-dom" % "0.2",
           libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-jquery" % "0.2",
-          libraryDependencies += "net.entelijan" %% "doctus-scalajs" % "1.0.0",
+          libraryDependencies += "net.entelijan" %% "doctus-scalajs" % D.doctusVersion,
           fork := true,
           unmanagedSources in (Compile, packageJS) += baseDirectory.value / "js" / "startup.js")
 
