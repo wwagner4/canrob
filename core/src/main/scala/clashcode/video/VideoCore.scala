@@ -2,12 +2,8 @@ package clashcode.video
 
 import doctus.core._
 
-
-
 case class Pos(x: Int, y: Int)
-
 case class Rec(w: Int, h: Int)
-
 case class DrawArea(offset: Pos, area: Rec)
 
 sealed trait Direction
@@ -29,9 +25,9 @@ trait ImageProvider {
 }
 
 case class StageParams(
-  fieldSize: Int,
-  imgProvider: ImageProvider,
-  widthHeightRatio: Double, border: Double)
+  fieldSize: Int, // Number of rows and columns of the field
+  imgProvider: ImageProvider, // Provides paths to images for robot and can
+  widthHeightRatio: Double, border: Double) // Ratio of height to width of the field. 
 
 case class VideoImage(
   imgPath: String, // A path describing the location of the image
@@ -44,7 +40,7 @@ sealed trait Stage {
   // Paints a complete frame of the video
   def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit
 
-  // Utillity methods to be used in the implementation of paint
+  // Utility methods to be used in the implementation of paint
 
   def clear(g: DoctusGraphics, drawArea: DrawArea): Unit = {
     g.setColor(White)
@@ -72,9 +68,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
 
   def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
-    // Calculate the current DrawArea. Draw area is a lambda because it might change 
-    // during showing the video. E.g. the swing device is resizeable
-    // Effective Field is the field without borders
+    // Effective field is the field without borders
     val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
 
     def paintField: Unit = {
@@ -91,7 +85,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
           g.drawLine(eda.offset.x, eda.offset.y + d, eda.offset.x + eda.area.w, eda.offset.y + d)
         })
       }
-      //paintRaster
+      paintRaster
       g.drawRect(eda.offset.x, eda.offset.y, eda.area.w, eda.area.h)
     }
     def paintRobot(pos: Pos, dir: Direction): Unit = {
