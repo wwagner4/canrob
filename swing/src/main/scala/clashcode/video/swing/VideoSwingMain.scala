@@ -29,6 +29,7 @@ object VideoSwingMain extends App {
   val canvas = new EasyCanvas()
 
   val comboBox = new ComboBox(List.empty[Video]) {
+    // Define how a Video is rendered in the comboBox
     import scala.swing.ListView.Renderer
     val max = 100
     def trim(value: String): String = {
@@ -44,6 +45,7 @@ object VideoSwingMain extends App {
   val startButton = new Button("Start")
 
   val mf = new MainFrame() {
+    // Define the layout of the components
     contents = new BorderPanel() {
       val compPanel = new FlowPanel(comboBox, startButton)
       add(compPanel, BorderPanel.Position.North)
