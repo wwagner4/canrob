@@ -10,6 +10,7 @@ import doctus.swing._
 import clashcode.video.Pos
 import clashcode.video.lists.AkkaWorkshopResultsVideos
 import clashcode.video.VideoCreator
+import clashcode.video.Video
 
 /**
  * Creates images in a directory that can be used to create videos afterward
@@ -17,8 +18,6 @@ import clashcode.video.VideoCreator
  */
 object ImagesMain extends App {
 
-  val video = AkkaWorkshopResultsVideos.v001
-  val stages = VideoCreator.create(List(video), 20)
   val stageParams = StageParams(10, ImageProvider_V01, 0.6, 0.03)
 
   //val res = Rec(3840, 2160) // 2160p
@@ -28,6 +27,8 @@ object ImagesMain extends App {
   val res = Rec(640, 360)
   val imgFormat = "png" // jpg, png
   
+  val video: Video = AkkaWorkshopResultsVideos.v001
+  val stages: List[NumberedStage] = VideoCreator.create(List(video), 20)
   stages.foreach(s => paintStage(s))
   def paintStage(stage: NumberedStage): Unit = {
     val bi = new BufferedImage(res.w, res.h, BufferedImage.TYPE_INT_RGB)

@@ -58,7 +58,7 @@ object VideoSwingMain extends App {
   }
 
 
-  val framesPerSecond = 20
+  val framesPerSecond = 10
   val params = StageParams(10, ImageProvider_V02, 0.8, 0.05)
   val videos = AkkaWorkshopPresentationVideos.videos
   //val videos = AkkaWorkshopResultsVideos.all
