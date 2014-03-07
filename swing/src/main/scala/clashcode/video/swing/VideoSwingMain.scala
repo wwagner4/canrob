@@ -8,7 +8,6 @@ import clashcode.video.StageParams
 import clashcode.video.VideoCreator
 import clashcode.video.ImageProvider_V01
 import clashcode.video.ImageProvider_V02
-import doctus.swing.EasyCanvas
 import clashcode.video.GuiController
 import scala.swing.MainFrame
 import scala.swing.FlowPanel
@@ -22,11 +21,11 @@ import java.awt.Dimension
 import doctus.swing.SwingSelect
 import doctus.swing.SwingButton
 import doctus.swing.SwingScheduler
+import doctus.swing.DoctusPanel
 
 object VideoSwingMain extends App {
 
-
-  val canvas = new EasyCanvas()
+  val canvas = new DoctusPanel()
 
   val comboBox = new ComboBox(List.empty[Video]) {
     // Define how a Video is rendered in the comboBox

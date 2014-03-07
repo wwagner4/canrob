@@ -13,7 +13,7 @@ object CanrobBuild extends Build {
 
   object D {
     val scalaVersion = "2.10.3"
-    val doctusVersion = "1.0.0"
+    val doctusVersion = "1.0.1"
   }
 
   object S {
