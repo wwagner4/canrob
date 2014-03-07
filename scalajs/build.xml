@@ -4,30 +4,30 @@
 	<property name="exportWebDir">/home/wolfi/tmp/canrob</property>
 
 	<target name="export-mobile">
-		<copy todir="${exportMobileDir}" failonerror="true" verbose="true">
+		<copy todir="${exportMobileDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir=".">
 				<include name="js/**/*" />
 				<exclude name="**/*.map" />
 			</fileset>
 		</copy>
-		<copy todir="${exportMobileDir}/js" failonerror="true" verbose="true">
+		<copy todir="${exportMobileDir}/js" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir="target/scala-2.10">
 				<include name="*opt.js" />
 			</fileset>
 		</copy>
-		<copy todir="${exportMobileDir}" failonerror="true" verbose="true">
+		<copy todir="${exportMobileDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir=".">
 				<include name="src/main/resources/**/*" />
 			</fileset>
 		</copy>
-		<copy todir="${exportMobileDir}" failonerror="true" verbose="true">
+		<copy todir="${exportMobileDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir=".">
 				<include name="index.html" />
 			</fileset>
 		</copy>
 	</target>
 	<target name="export-web">
-		<copy todir="${exportWebDir}" failonerror="true" verbose="true">
+		<copy todir="${exportWebDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir=".">
 				<include name="js/**/*" />
 				<exclude name="**/*.map" />
@@ -38,12 +38,12 @@
 				<include name="*opt.js" />
 			</fileset>
 		</copy>
-		<copy todir="${exportWebDir}" failonerror="true" verbose="true">
+		<copy todir="${exportWebDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir=".">
 				<include name="src/main/resources/**/*" />
 			</fileset>
 		</copy>
-		<copy todir="${exportWebDir}" failonerror="true" verbose="true">
+		<copy todir="${exportWebDir}" failonerror="true" verbose="true" overwrite="true">
 			<fileset dir="web">
 				<include name="*" />
 			</fileset>

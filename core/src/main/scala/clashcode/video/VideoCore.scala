@@ -85,7 +85,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
           g.drawLine(eda.offset.x, eda.offset.y + d, eda.offset.x + eda.area.w, eda.offset.y + d)
         })
       }
-      paintRaster
+      //paintRaster
       g.drawRect(eda.offset.x, eda.offset.y, eda.area.w, eda.area.h)
     }
     def paintRobot(pos: Pos, dir: Direction): Unit = {
