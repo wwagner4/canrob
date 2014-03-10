@@ -1,7 +1,6 @@
 import sbt._
 import Keys._
 import sbt.Package.ManifestAttributes
-import sbt.Package.ManifestAttributes
 
 import com.typesafe.sbteclipse.plugin.EclipsePlugin._
 
