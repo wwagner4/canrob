@@ -11,7 +11,7 @@ import ScalaJSKeys._
 object CanrobBuild extends Build {
 
   object D {
-    val scalaVersion = "2.10.3"
+    val scalaVersion = "2.10.4"
     val doctusVersion = "1.0.1"
   }
 
