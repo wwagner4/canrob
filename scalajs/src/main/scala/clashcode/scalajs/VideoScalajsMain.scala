@@ -11,11 +11,15 @@ import clashcode.video.lists.AkkaWorkshopResultsVideos
 import org.scalajs.dom.HTMLDivElement
 import doctus.core._
 import doctus.scalajs._
+import scala.scalajs.js.annotation.JSExport
 
+@JSExport
 object VideoScalajsMain {
 
   // Comes here on every refresh (update)
+  @JSExport
   def main(): Unit = {
+    println("-- Entered VideoScalajsMain")
     // GUI Components form the HTML-Page
     val center: HTMLDivElement = dom.document.getElementById("centerDiv").asInstanceOf[HTMLDivElement]
     val canvas: HTMLCanvasElement = dom.document.getElementById("canvas").asInstanceOf[HTMLCanvasElement]
