@@ -1,11 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-root-build.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-root-build.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-core.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-core.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-root.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-root.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-scalajs.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-scalajs.iml"/>
-      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-swing.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-swing.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-core.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-root.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-root-build.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-root-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-scalajs.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-scalajs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/canrob-swing.iml" filepath="$PROJECT_DIR$/.idea_modules/canrob-swing.iml" />
     </modules>
   </component>
 </project>
+

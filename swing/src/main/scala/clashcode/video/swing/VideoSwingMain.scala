@@ -1,27 +1,17 @@
 package clashcode.video.swing
 
 import java.awt.Graphics2D
+import javax.swing.ImageIcon
 import clashcode.video.swing._
 import scala.concurrent.duration._
 import clashcode.video.lists._
 import clashcode.video.StageParams
-import clashcode.video.VideoCreator
 import clashcode.video.ImageProvider_V01
-import clashcode.video.ImageProvider_V02
 import clashcode.video.GuiController
-import scala.swing.MainFrame
-import scala.swing.FlowPanel
-import scala.swing.BorderPanel
-import scala.swing.Button
-import scala.swing.ComboBox
-import javax.swing.ImageIcon
+import scala.swing._
 import clashcode.video.Video
-import doctus.swing.SwingCanvas
+import doctus.swing._
 import java.awt.Dimension
-import doctus.swing.SwingSelect
-import doctus.swing.SwingButton
-import doctus.swing.SwingScheduler
-import doctus.swing.DoctusPanel
 
 object VideoSwingMain extends App {
 
@@ -63,10 +53,10 @@ object VideoSwingMain extends App {
   val videos = AkkaWorkshopResultsVideos.all
   //val videos = AkkaWorkshopResultsVideos.top10
   
-  GuiController(SwingCanvas(canvas),
-    SwingSelect[Video](comboBox),
-    SwingButton(startButton),
-    SwingScheduler(canvas),
+  GuiController(DoctusCanvasSwing(canvas),
+    DoctusSelectSwing[Video](comboBox),
+    DoctusButtonSwing(startButton),
+    DoctusSchedulerSwing,
     framesPerSecond,
     params,
     videos)

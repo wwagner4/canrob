@@ -29,7 +29,7 @@ object VideoScalajsMain {
     val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
     canvas.width = center.clientWidth
-    canvas.height = canvas.width * 0.7
+    canvas.height = (canvas.width * 0.7).toInt
 
     // Some configuration
     val framesPerSecond = 15
@@ -37,10 +37,10 @@ object VideoScalajsMain {
     val allVideos = AkkaWorkshopResultsVideos.all
 
     // Wrap the javascript components
-    val dcanvas: DoctusCanvas = ScalajsCanvas(canvas)
-    val dselectBox: DoctusSelect[Video] = ScalajsSelect[Video](selectBox, (v: Video) => v.text)
-    val dstartButton: DoctusButton = ScalajsButton(startButton)
-    val dscheduler: DoctusScheduler = ScalajsScheduler(canvas)
+    val dcanvas: DoctusCanvas = DoctusCanvasScalajs(canvas)
+    val dselectBox: DoctusSelect[Video] = DoctusSelectScalajs[Video](selectBox, (v: Video) => v.text)
+    val dstartButton: DoctusButton = DoctusButtonScalajs(startButton)
+    val dscheduler: DoctusScheduler = DoctusSchedulerScalajs
     
     // Start the platform independent controller
     GuiController(dcanvas, dselectBox, dstartButton, dscheduler, framesPerSecond, params, allVideos)

@@ -43,7 +43,7 @@ sealed trait Stage {
   // Utility methods to be used in the implementation of paint
 
   def clear(g: DoctusGraphics, drawArea: DrawArea): Unit = {
-    g.setColor(White)
+    g.setColor(color.DoctusColorWhite)
     val x = drawArea.offset.x
     val y = drawArea.offset.y
     val w = drawArea.area.w
@@ -72,7 +72,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
     val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
 
     def paintField: Unit = {
-      g.setColor(Black)
+      g.setColor(color.DoctusColorBlack)
       def paintRaster: Unit = {
         val fw = eda.area.w / (params.fieldSize)
         val fh = eda.area.h / (params.fieldSize)
@@ -143,7 +143,7 @@ case class TextStage(text: Text) extends Stage {
   def paint(g: DoctusGraphics, drawArea: DrawArea, params: StageParams): Unit = {
 
     def paintText(text: Text, drawArea: DrawArea) = {
-      g.setColor(Black)
+      g.setColor(color.DoctusColorBlack)
       val fontSize = drawArea.area.h.toFloat / 20
       g.setFontSize(fontSize)
       val lines = text.lines

@@ -18,13 +18,10 @@ object CanrobBuild extends Build {
   object S {
 
     lazy val baseSettings =
-      Defaults.defaultSettings ++
         Seq(
           organization := "net.entelijan",
           organizationHomepage := Some(url("http://entelijan.net/")),
           libraryDependencies += "org.scalatest" %% "scalatest" % "2.0" % "test",
-          resolvers += "entelijan" at "http://entelijan.net/artifactory/repo/",
-          EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
           EclipseKeys.withSource := true)
 
     lazy val defaultSettings =
@@ -36,7 +33,7 @@ object CanrobBuild extends Build {
       defaultSettings ++
         scalaJSSettings ++
         Seq(
-          libraryDependencies += "net.entelijan" %% "doctus-core" % D.doctusVersion)
+          libraryDependencies += "net.entelijan" %%% "doctus-core" % D.doctusVersion)
 
     lazy val swingSettings =
       defaultSettings ++
@@ -48,9 +45,9 @@ object CanrobBuild extends Build {
       defaultSettings ++
         scalaJSSettings ++
         Seq(
-          libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-dom" % "0.6",
-          libraryDependencies += "org.scala-lang.modules.scalajs" %% "scalajs-jquery" % "0.6",
-          libraryDependencies += "net.entelijan" %% "doctus-scalajs" % D.doctusVersion,
+          libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-dom" % "0.6",
+          libraryDependencies += "org.scala-lang.modules.scalajs" %%% "scalajs-jquery" % "0.6",
+          libraryDependencies += "net.entelijan" %%% "doctus-scalajs" % D.doctusVersion,
           unmanagedSources in (Compile, packageJS) += baseDirectory.value / "js" / "startup.js")
 
   }
