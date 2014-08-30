@@ -1,8 +1,6 @@
 package clashcode.scalajs
 
-import scala.scalajs.js
 import scala.scalajs.js.Any.{ fromDouble, fromFunction0, fromInt, fromString, stringOps }
-import scala.scalajs.js.Number.toDouble
 import org.scalajs.dom
 import org.scalajs.dom._
 import org.scalajs.jquery.{ JQuery, jQuery }
