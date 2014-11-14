@@ -12,7 +12,7 @@ case class Video(
 case object VideoCreator {
   
   def create(videos: List[Video], framesPerSecond: Int): List[NumberedStage] = {
-
+    
     def createOne(video: Video): List[Stage] = {
       val txt = video.text.split("\n").toList
       val dur = video.textDuration.toMillis.toDouble / 1000

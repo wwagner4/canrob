@@ -8,7 +8,7 @@ object AkkaWorkshopWinnerVideos {
   def winner = List(v001a, v001b, v001c)
 
   val v001a = Video("The winner. Nr: 1\n[Philip(623),Sebastian(187),@lachdrache(182),petra(55),Sanjin(24)]\nFitness: 97980\n\nProud to show its behaviour on three fields\n\nField I",
-    7.second,
+    2.second,
     "32311022203043011011122022352233524234230050512250003011231200224444444424443404434142434442444402141214453434245440443403411255",
     None,
     1L)
@@ -28,7 +28,7 @@ object AkkaWorkshopWinnerVideos {
   def next = List(v010a, v010b, v010c)
 
   val v010a = Video("The next robot with different creators. Nr. 10\n[Philip(1143),@lachdrache(192),Drazen(142),Sebastian(118),petra(55)]\nFitness: 97935\n\nProud to show its behaviour on three fields\n\nField I",
-    7.second,
+    2.second,
     "32311022203003311011132122352233052244230050312250005211031421544444444424445414434142434442444432141114453434245444441453401225",
     None,
     1L)
@@ -48,7 +48,7 @@ object AkkaWorkshopWinnerVideos {
   def noPhilip = List(v078a, v078b, v078c)
 
   val v078a = Video("The best robot not influenced by Philip. Nr: 78\n[@lachdrache(3637),Jürgen(3247),petra(487),Sanjin(51),Sigi(1)]\nFitness: 90490\n\nProud to show its behaviour on three fields\n\nField I",
-    7.second,
+    2.second,
     "51314121303013321311122321321033211131110000122100304341100332534444544444443244144144244434424421443423444423442444022444011441",
     None,
     1L)
@@ -68,7 +68,7 @@ object AkkaWorkshopWinnerVideos {
   def stuck = List(v082a, v082b, v082c)
 
   val v082a = Video("Where we got stuck in the first session. Nr: 82\n[@lachdrache(3550),Jürgen(3247),petra(366),Sanjin(51),Sigi(1)]\nFitness: 90220\n\nProud to show its behaviour on three fields\n\nField I",
-    7.second,
+    2.second,
     "51312121303022022311122321321433201131130000202100301521100532534444544444444214144544044434424422443443444405442444022414011412",
     None,
     1L)

@@ -29,7 +29,7 @@ object VideoScalajsMain {
     canvas.height = (canvas.width * 0.7).toInt
 
     // Some configuration
-    val framesPerSecond = 15
+    val framesPerSecond = 1
     val params = StageParams(10, ImageProvider_V01, 0.7, 0.07)
     val allVideos = AkkaWorkshopResultsVideos.all
 
