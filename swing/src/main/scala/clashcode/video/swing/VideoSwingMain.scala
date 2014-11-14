@@ -25,21 +25,7 @@ import javax.swing.JLabel
 object VideoSwingMain extends App {
 
   val canvas = new DoctusPanel()
-  val comboBox = new JComboBox[Video]() {
-
-    object TaskCellRenderer extends ListCellRenderer[Video] {
-      val peerRenderer: ListCellRenderer[Video] = (new DefaultListCellRenderer).asInstanceOf[ListCellRenderer[Video]]
-      override def getListCellRendererComponent(
-        list: JList[_ <: Video], video: Video, index: Int,
-        isSelected: Boolean, cellHasFocus: Boolean): Component = {
-        val component = peerRenderer.getListCellRendererComponent(
-          list, video, index, isSelected, cellHasFocus).asInstanceOf[JLabel]
-        component.setText(video.text)
-        component
-      }
-    }
-    setRenderer(TaskCellRenderer)
-  }
+  val comboBox = new JComboBox[Video]()
   val startButton = new JButton("Start")
 
   // Define the layout of the components
@@ -61,7 +47,7 @@ object VideoSwingMain extends App {
   //val videos = AkkaWorkshopResultsVideos.top10
 
   GuiController(DoctusCanvasSwing(canvas),
-    DoctusSelectSwing[Video](comboBox),
+    DoctusSelectSwing[Video](comboBox, v => v.text),
     DoctusClickableSwing(startButton),
     DoctusSchedulerSwing,
     framesPerSecond,
