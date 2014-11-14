@@ -7,7 +7,7 @@ import doctus.core._
 case class GuiController(
   canvas: DoctusCanvas,
   selectBox: DoctusSelect[Video],
-  startButton: DoctusButton,
+  startButton: DoctusClickable,
   scheduler: DoctusScheduler,
   framesPerSecond: Int,
   stageParams: StageParams,
@@ -18,11 +18,7 @@ case class GuiController(
   var stagesOpt: Option[List[NumberedStage]] = None
 
   // Fill the select box
-  allVideos.zipWithIndex.foreach {
-    case (video, index) => {
-      selectBox.addItem(index, video)
-    }
-  }
+  allVideos.foreach(video => selectBox.addItem(video))
 
   // Register callback for start button
   startButton.onClick { () =>

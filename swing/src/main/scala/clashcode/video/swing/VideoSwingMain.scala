@@ -1,67 +1,79 @@
 package clashcode.video.swing
 
-import java.awt.Graphics2D
-import javax.swing.ImageIcon
-import clashcode.video.swing._
-import scala.concurrent.duration._
-import clashcode.video.lists._
-import clashcode.video.StageParams
-import clashcode.video.ImageProvider_V01
-import clashcode.video.GuiController
-import scala.swing._
-import clashcode.video.Video
-import doctus.swing._
+import java.awt.BorderLayout
+import java.awt.Component
 import java.awt.Dimension
+import java.awt.FlowLayout
+import clashcode.video.GuiController
+import clashcode.video.ImageProvider_V01
+import clashcode.video.StageParams
+import clashcode.video.Video
+import clashcode.video.lists._
+import clashcode.video.swing._
+import doctus.swing._
+import javax.swing.DefaultListCellRenderer
+import javax.swing.ImageIcon
+import javax.swing.JButton
+import javax.swing.JComboBox
+import javax.swing.JFrame
+import javax.swing.JList
+import javax.swing.JPanel
+import javax.swing.ListCellRenderer
+import javax.swing.JComponent
+import javax.swing.JLabel
 
 object VideoSwingMain extends App {
 
   val canvas = new DoctusPanel()
+  val comboBox = new JComboBox[Video]() {
 
-  val comboBox = new ComboBox(List.empty[Video]) {
-    // Define how a Video is rendered in the comboBox
-    import scala.swing.ListView.Renderer
-    val max = 100
-    def trim(value: String): String = {
-      if (value.size < max) value
-      else value.substring(0, max - 3) + "..."
+    object TaskCellRenderer extends ListCellRenderer[Video] {
+      val peerRenderer: ListCellRenderer[Video] = (new DefaultListCellRenderer).asInstanceOf[ListCellRenderer[Video]]
+      override def getListCellRendererComponent(
+        list: JList[_ <: Video], video: Video, index: Int,
+        isSelected: Boolean, cellHasFocus: Boolean): Component = {
+        val component = peerRenderer.getListCellRendererComponent(
+          list, video, index, isSelected, cellHasFocus).asInstanceOf[JLabel]
+        component.setText(video.text)
+        component
+      }
     }
-    renderer = Renderer(v => {
-      if (v != null) trim(v.text.replace("\n", ""))
-      else ""
-    })
+    setRenderer(TaskCellRenderer)
   }
+  val startButton = new JButton("Start")
 
-  val startButton = new Button("Start")
+  // Define the layout of the components
+  val compPanel = new JPanel()
+  compPanel.setLayout(new FlowLayout())
+  compPanel.add(comboBox)
+  compPanel.add(startButton)
 
-  val mf = new MainFrame() {
-    // Define the layout of the components
-    contents = new BorderPanel() {
-      val compPanel = new FlowPanel(comboBox, startButton)
-      add(compPanel, BorderPanel.Position.North)
-      add(canvas, BorderPanel.Position.Center)
-    }
-    title = "Akka Workshop Reloaded"
-    iconImage = new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage
-    //size = mf.toolkit.getScreenSize()
-    size = new Dimension(800, 600)
-  }
+  val contents = new JPanel()
+  contents.setLayout(new BorderLayout())
+  contents.add(compPanel, BorderLayout.NORTH)
+  contents.add(canvas, BorderLayout.CENTER)
 
-
-  val framesPerSecond = 20
+  val framesPerSecond = 10
   val params = StageParams(10, ImageProvider_V01, 0.8, 0.05)
+
   //val videos = AkkaWorkshopPresentationVideos.videos
   val videos = AkkaWorkshopResultsVideos.all
   //val videos = AkkaWorkshopResultsVideos.top10
-  
+
   GuiController(DoctusCanvasSwing(canvas),
     DoctusSelectSwing[Video](comboBox),
-    DoctusButtonSwing(startButton),
+    DoctusClickableSwing(startButton),
     DoctusSchedulerSwing,
     framesPerSecond,
     params,
     videos)
 
-  mf.visible = true;
+  val mf = new JFrame();
+  mf.setContentPane(contents)
+  mf.setTitle("Akka Workshop Reloaded")
+  mf.setIconImage(new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage())
+  mf.setSize(new Dimension(800, 600))
+  mf.setVisible(true)
 
 }
 

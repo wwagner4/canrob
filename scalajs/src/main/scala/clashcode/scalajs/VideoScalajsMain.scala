@@ -24,7 +24,6 @@ object VideoScalajsMain {
     val selectBoxElem = dom.document.getElementById("selectBox")
     val selectBox: JQuery = jQuery(selectBoxElem.asInstanceOf[HTMLSelectElement])
     val startButtonElem = dom.document.getElementById("startButton")
-    val startButton: JQuery = jQuery(startButtonElem.asInstanceOf[HTMLButtonElement])
 
     canvas.width = center.clientWidth
     canvas.height = (canvas.width * 0.7).toInt
@@ -37,7 +36,7 @@ object VideoScalajsMain {
     // Wrap the javascript components
     val dcanvas: DoctusCanvas = DoctusCanvasScalajs(canvas)
     val dselectBox: DoctusSelect[Video] = DoctusSelectScalajs[Video](selectBox, (v: Video) => v.text)
-    val dstartButton: DoctusButton = DoctusButtonScalajs(startButton)
+    val dstartButton: DoctusClickable = DoctusClickableScalajs(startButtonElem)
     val dscheduler: DoctusScheduler = DoctusSchedulerScalajs
     
     // Start the platform independent controller
