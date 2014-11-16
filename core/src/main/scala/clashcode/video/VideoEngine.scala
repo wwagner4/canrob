@@ -16,7 +16,7 @@ object VideoEngine extends App {
 
   private def printVideo(index: Int, result: ResultEntry): Unit = {
     val id = "%03d" format index
-    val s = s"""  val v${id} = Video("${result.fitness}\\n\\n${result.name}",
+    val s = s"""  val v$id = Video("${result.fitness}\\n\\n${result.name}",
     5.second,
     "${result.code}",
     None,
@@ -35,7 +35,7 @@ object VideoEngine extends App {
     import scala.io.Source
     import java.io.File
     val linesList = Source.fromFile(new File(filename))(Codec.UTF8).getLines().toSet
-    val set = linesList.map(parseLine(_))
+    val set = linesList.map(parseLine)
     set.toList
   }
 

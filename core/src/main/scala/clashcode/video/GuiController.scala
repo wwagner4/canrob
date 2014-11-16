@@ -9,9 +9,10 @@ case class GuiController(
   selectBox: DoctusSelect[Video],
   startButton: DoctusClickable,
   scheduler: DoctusScheduler,
-  framesPerSecond: Int,
   stageParams: StageParams,
   allVideos: List[Video]) {
+
+  val framesPerSecond = 20
 
   // Global state
   var index = 0
@@ -28,21 +29,21 @@ case class GuiController(
   }
 
   val d1 = (1000.0 / framesPerSecond).toInt
-  scheduler.start(() => canvas.repaint, d1)
+  scheduler.start(() => {
+    canvas.repaint()
+  }, d1)
 
   // Register callback for repaint
   canvas.onRepaint { (cg: DoctusGraphics) =>
     {
       val da: DrawArea = DrawArea(Pos(0, 0), Rec(canvas.width, canvas.height))
       stagesOpt match {
-        case Some(stages) => {
+        case Some(stages) =>
           val stage = stages(index)
           stage.stage.paint(cg, da, stageParams)
           if (index >= stages.size - 1) stagesOpt = None
-        }
-        case None => {
+        case None =>
           Intro.stage(index).paint(cg, da, stageParams)
-        }
       }
       index += 1
     }

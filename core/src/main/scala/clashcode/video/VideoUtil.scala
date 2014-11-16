@@ -5,7 +5,7 @@ object EffectiveField {
   def calc(outer: DrawArea, widthHeightRatio: Double, relBorder: Double): DrawArea = {
     val border = (math.max(outer.area.w, outer.area.h) * relBorder).toInt
     require(widthHeightRatio <= 1.0)
-    val outerRatio = (outer.area.h).toDouble / (outer.area.w)
+    val outerRatio = outer.area.h.toDouble / outer.area.w
     if (outerRatio <= widthHeightRatio) {
       val h = outer.area.h - 2 * border
       val w = (h / widthHeightRatio).toInt

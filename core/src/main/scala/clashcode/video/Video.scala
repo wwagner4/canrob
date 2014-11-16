@@ -7,7 +7,7 @@ case class Video(
     textDuration: Duration, // Duration the text is displayed
     code: String, // Code of the robot to be displayed
     gameSteps: Option[Int], // Number of robot steps to be displayed. None means all steps
-    seed: Long) // Seed for random populating the feeld with cans
+    seed: Long) // Seed for random populating the field with cans
 
 case object VideoCreator {
   
@@ -25,11 +25,10 @@ case object VideoCreator {
     def createStages(videos: List[Video], framesPerSecond: Int): List[Stage] = {
       videos match {
         case Nil => Nil
-        case head :: tail => {
+        case head :: tail =>
           val headStages = createOne(head)
           assert(headStages.nonEmpty, "Every video must create at least one stage")
           headStages ::: createStages(tail, framesPerSecond)
-        }
       }
     }
     

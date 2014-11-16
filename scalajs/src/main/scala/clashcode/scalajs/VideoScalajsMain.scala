@@ -29,7 +29,6 @@ object VideoScalajsMain {
     canvas.height = (canvas.width * 0.7).toInt
 
     // Some configuration
-    val framesPerSecond = 1
     val params = StageParams(10, ImageProvider_V01, 0.7, 0.07)
     val allVideos = AkkaWorkshopResultsVideos.all
 
@@ -40,7 +39,7 @@ object VideoScalajsMain {
     val dscheduler: DoctusScheduler = DoctusSchedulerScalajs
     
     // Start the platform independent controller
-    GuiController(dcanvas, dselectBox, dstartButton, dscheduler, framesPerSecond, params, allVideos)
+    GuiController(dcanvas, dselectBox, dstartButton, dscheduler, params, allVideos)
 
   }
 

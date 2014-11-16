@@ -71,16 +71,16 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
     // Effective field is the field without borders
     val eda = EffectiveField.calc(drawArea, params.widthHeightRatio, params.border)
 
-    def paintField: Unit = {
+    def paintField(): Unit = {
       g.setColor(color.DoctusColorBlack)
-      def paintRaster: Unit = {
-        val fw = eda.area.w / (params.fieldSize)
-        val fh = eda.area.h / (params.fieldSize)
-        (0 to (params.fieldSize) - 1).foreach(i => {
+      def paintRaster(): Unit = {
+        val fw = eda.area.w / params.fieldSize
+        val fh = eda.area.h / params.fieldSize
+        (0 to params.fieldSize - 1).foreach(i => {
           val d = i * fw
           g.drawLine(eda.offset.x + d, eda.offset.y, eda.offset.x + d, eda.offset.y + eda.area.h)
         })
-        (0 to (params.fieldSize) - 1).foreach(i => {
+        (0 to params.fieldSize - 1).foreach(i => {
           val d = i * fh
           g.drawLine(eda.offset.x, eda.offset.y + d, eda.offset.x + eda.area.w, eda.offset.y + d)
         })
@@ -95,7 +95,7 @@ case class GameStage(robot: RobotView, cans: Set[Pos]) extends Stage {
     // Paint one frame
     clear(g, drawArea)
     val visibleCans = cans - robot.pos
-    paintField
+    paintField()
     for (canPos <- visibleCans) {
       paintVideoImage(g, params.imgProvider.can, canPos, eda, params)
     }

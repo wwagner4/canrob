@@ -15,15 +15,14 @@ case object SceneCreator {
 
     def stepsToStages(steps: List[FieldStep], preRobot: RobotView, fieldSize: Int): List[Stage] = steps match {
       case Nil => Nil
-      case head :: tail => {
+      case head :: tail =>
         val stages = PathUtil.stepToStages(head, preRobot, fieldSize, ran)
         val lastRobot = stages.last.robot
         stages ::: stepsToStages(tail, lastRobot, fieldSize)
-      }
     }
 
     val path = PathUtil.strCodeToPath(strCode, gameSteps, ran)
-    val steps = PathUtil.pathToSteps(path.path);
+    val steps = PathUtil.pathToSteps(path.path)
     assert(steps.nonEmpty, "There should be at least one step")
     val startField = steps(0).from
     val startRobot = RobotView(Pos(startField.robot.x * 2 + 1, startField.robot.y * 2 + 1), S)
@@ -138,7 +137,7 @@ case object PathUtil {
     }
     if (step.from.robot.x == step.to.robot.x && step.from.robot.y == step.to.robot.y) {
       // Robot did not move
-      val nextDir = if (ran.nextBoolean) DirectionUtil.turnRight(robot.dir)
+      val nextDir = if (ran.nextBoolean()) DirectionUtil.turnRight(robot.dir)
       else DirectionUtil.turnLeft(robot.dir)
       val nextRobot = RobotView(robot.pos, nextDir)
       List(GameStage(robot, mapPos(step.to.items)))

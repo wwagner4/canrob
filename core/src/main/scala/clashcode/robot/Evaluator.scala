@@ -16,7 +16,7 @@ case class EvalResult(points: Int, path: List[FieldState], fieldWidth: Integer)
  */
 object Evaluator {
 
-  private val fieldSize = 10;
+  private val fieldSize = 10
 
   lazy private val testFields = (0 until 200).map(seed => FieldFactory.createRandomField(new Random(seed), fieldSize))
 

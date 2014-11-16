@@ -18,8 +18,8 @@ class Game(field: Field, random: Random) {
 
   val items = mutable.ArraySeq(field.items: _*)
   var itemCount = field.itemCount
-  var x = 0;
-  var y = 0;
+  var x = 0
+  var y = 0
 
   /** get value of cell on position */
   private def cell(x: Int, y: Int): Cell.Value = {
@@ -77,8 +77,8 @@ class Game(field: Field, random: Random) {
 case object ItemConverter {
   def convertItems(items: List[Boolean], fieldSize: Int): List[FieldPos] = {
     val re = for (
-      y <- (0 until fieldSize);
-      x <- (0 until fieldSize)
+      y <- 0 until fieldSize;
+      x <- 0 until fieldSize
     ) yield {
       val index = y * fieldSize + x
       if (items(index)) Some(FieldPos(x, y))

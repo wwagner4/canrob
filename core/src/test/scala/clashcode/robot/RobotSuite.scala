@@ -17,10 +17,10 @@ class RobotSuite extends FeatureSpec with Matchers {
       val parents = (0 to 20).map(id => RobotCode.createRandomCode("parent" + id))
       val robot = Robot(RobotCode(parents.head.code, "me", parents), 0)
 
-      val bos = new ByteArrayOutputStream();
-      val oos = new ObjectOutputStream(bos);
-      oos.writeObject(robot);
-      oos.close();
+      val bos = new ByteArrayOutputStream()
+      val oos = new ObjectOutputStream(bos)
+      oos.writeObject(robot)
+      oos.close()
 
       1000 should be > bos.toByteArray.length
     }
@@ -29,10 +29,10 @@ class RobotSuite extends FeatureSpec with Matchers {
 
       val robot = Robot(RobotCode.createRandomCode("parent"), 0)
 
-      val bos = new ByteArrayOutputStream();
-      val oos = new ObjectOutputStream(bos);
-      oos.writeObject(robot);
-      oos.close();
+      val bos = new ByteArrayOutputStream()
+      val oos = new ObjectOutputStream(bos)
+      oos.writeObject(robot)
+      oos.close()
 
       566 should equal(bos.toByteArray.length)
     }

@@ -1,3 +1,4 @@
+<!--suppress ALL -->
 <project name="canrob-scalajs">
 
 	<property name="exportMobileDir">../../canrob-mobile</property>

@@ -39,7 +39,6 @@ object VideoSwingMain extends App {
   contents.add(compPanel, BorderLayout.NORTH)
   contents.add(canvas, BorderLayout.CENTER)
 
-  val framesPerSecond = 10
   val params = StageParams(10, ImageProvider_V01, 0.8, 0.05)
 
   //val videos = AkkaWorkshopPresentationVideos.videos
@@ -50,14 +49,14 @@ object VideoSwingMain extends App {
     DoctusSelectSwing[Video](comboBox, v => v.text),
     DoctusClickableSwing(startButton),
     DoctusSchedulerSwing,
-    framesPerSecond,
     params,
     videos)
 
-  val mf = new JFrame();
+  val mf = new JFrame()
   mf.setContentPane(contents)
+  mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   mf.setTitle("Akka Workshop Reloaded")
-  mf.setIconImage(new ImageIcon(getClass.getClassLoader().getResource("icon.png")).getImage())
+  mf.setIconImage(new ImageIcon(getClass.getClassLoader.getResource("icon.png")).getImage)
   mf.setSize(new Dimension(800, 600))
   mf.setVisible(true)
 
