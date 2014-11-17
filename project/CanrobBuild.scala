@@ -21,6 +21,7 @@ object CanrobBuild extends Build {
         Seq(
           organization := "net.entelijan",
           organizationHomepage := Some(url("http://entelijan.net/")),
+          resolvers += Resolver.url("entelijan", url("http://entelijan.net/artifactory/repo/")),
           libraryDependencies += "org.scalatest" %% "scalatest" % "2.0" % "test",
           EclipseKeys.withSource := true)
 
